@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">MyFirstAndroidApp</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    
+    <string name="player_prompt">Choose Player</string>
+ 
+    <string-array name="player_arrays">
+        <item>서인</item>
+        <item>류경동</item>
+        <item>김범수</item>
+        <item>이상원</item>
+        
+    </string-array>
+
+</resources>
