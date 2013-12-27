@@ -12,6 +12,7 @@ import android.widget.TableLayout;
 import android.content.Intent;
 import android.widget.TextView;
 import android.view.ViewGroup;
+import com.example.TrackGolfGame.R;
 import kankan.wheel.widget.OnWheelChangedListener;
 import kankan.wheel.widget.OnWheelScrollListener;
 import kankan.wheel.widget.WheelView;
@@ -98,14 +99,13 @@ public class StatusActivity extends Activity {
     TextView totalScore = (TextView) findViewById(R.id.totalScoreView);
     
     totalScore.setText(Integer.toString(tempGame.players.get(playerIdx).getTotalScore()));
-    
     totalScore.setVisibility(View.INVISIBLE);
     totalScore.setVisibility(View.VISIBLE);
     
     final Button homeButton = (Button) findViewById(R.id.goBackToHomeButton);
     homeButton.setOnClickListener(new View.OnClickListener() {
         public void onClick(View v) {
-        	Intent gameActivity = new Intent(getApplicationContext(), SecondActivity.class);
+        	Intent gameActivity = new Intent(getApplicationContext(), GameActivity.class);
             startActivity(gameActivity);                
         }
     });

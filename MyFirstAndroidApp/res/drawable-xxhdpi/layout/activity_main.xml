@@ -136,16 +136,5 @@
          style="@style/btnStyleBeige"
          android:text="Shuffle" />
 
-     <Button
-         android:id="@+id/handi"
-         android:layout_width="50dp"
-         android:layout_height="30dp"
-         android:layout_alignParentRight="true"
-         android:layout_below="@+id/shuffle"
-         android:layout_marginTop="10dp"
-         android:layout_alignLeft="@+id/shuffle"
-         style="@style/btnStyleBeige"
-         android:text="Handi" />
-
 </RelativeLayout>
 </ScrollView>

@@ -11,14 +11,18 @@ package com.example.myfirstandroidapp;
 	import java.util.Vector;
 	import java.util.Map;
 	import java.util.ListIterator;
+	import android.util.Log;
 
 	public class skinsGameInstance  {
+		
+		public enum scoreMode { DIFFERENCE, STROKES};
 		
 		public skinsGameInstance() {
 		       
 	        players = new Vector<player>();
 	        teams = new Vector<team>();
-	        
+            holeLogs = new Vector<holeLog>();
+            scoreMode__ = scoreMode.DIFFERENCE;
 		}
 	
 		  List<player> players;
@@ -33,11 +37,21 @@ package com.example.myfirstandroidapp;
 		
 		  int betUnit=5;
 		
-		  List<holeLog> holeLogs; 
+		  List<holeLog> holeLogs;
+		  boolean handiHoles[]={false, false,false, false, false, false,
+		                        false, false, false, false, false, false,
+				                false, false, false, false, false, false};
+		  int handiTeam;
 		
 		  final long serialVersionUID=100L;
 		
-		
+		  void setHandiHole(int holeNum){handiHoles[holeNum] = true;};
+		  void resetHandiHole(int holeNum){handiHoles[holeNum] = false;};
+		  boolean getHandiHole(int holeNum){return handiHoles[holeNum];};
+		  
+		  void setHandiTeam(int teamIdx){handiTeam=teamIdx;};
+		  int getHandiTeam(){ return handiTeam;}
+		  
 	    void startGame() {
 			
 			
@@ -48,17 +62,19 @@ package com.example.myfirstandroidapp;
 			team tempTeamB = new team("team B");
 			teams.add(tempTeamB);   
 	       	
-			holeLogs = new Vector<holeLog>();
 			
-			for(int holeIdx = 0; holeIdx<18;holeIdx++)
+		    Log.v("skinsGameInstance", "Contructor called");
+		    for(int holeIdx = 0; holeIdx<18;holeIdx++)
 			{
-				holeLog tempHole = new holeLog(holeIdx+1, betUnit);
+		    	holeLog tempHole = new holeLog(holeIdx+1, betUnit);
 				holeLogs.add(tempHole);
 			}
+			
 		}
 		
 		  void goToMainMenu() {
 			
+			Log.v("skinsGameInstance", "goToMainMenu");
 			
 			// delete team and players
 			ListIterator <player>iterator1 = players.listIterator();
@@ -95,5 +111,32 @@ package com.example.myfirstandroidapp;
 
 			
 		}
-
+		
+		public scoreMode getScoreMode(){ return scoreMode__;}
+		public void setScoreMode(scoreMode mode) { scoreMode__ = mode;}
+		public int getAdjustedTotal(int playerIdx, int holeNum) 
+		{
+			if(getScoreMode()==scoreMode.STROKES)
+			{
+				return players.get(playerIdx).getTotalScore();
+			}
+			else
+			{
+				int evenParStrokes=0;
+				for(int holeIdx=0;holeIdx<holeNum;holeIdx++)
+				{
+				   evenParStrokes+=parStrokes[holeIdx];
+				}
+				return (players.get(playerIdx).getTotalScore(holeNum) - evenParStrokes);		
+			}
+		}
+		
+		public int getParStrokes(){return parStrokes[curHole-1];};
+		public int getParStrokes(int holeIdx) { return parStrokes[holeIdx]; }
+		
+		static int summitPointeParStrokes[] = { 4,5,3,4,3,4,4,4,5,
+			4,4,4,3,5,5,3,4,4};
+		static int parStrokes[] = summitPointeParStrokes;
+		
+        static scoreMode scoreMode__;
 }

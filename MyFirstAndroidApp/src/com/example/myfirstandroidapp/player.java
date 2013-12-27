@@ -32,9 +32,22 @@ public class player {
 		int total=0;
 		int idx=0;
 		for(;idx<18;idx++)
+		{
 			total+=scores[idx];
-		
+		}
 		return total;
+	}
+	
+	public int getTotalScore(int holeNum)
+	{
+		int total=0;
+		int idx=0;
+		for(;idx<holeNum;idx++)
+		{
+			total+=scores[idx];
+		}
+		return total;
+		
 	}
 	
 	String name;

@@ -7,19 +7,49 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.view.*;
+import android.view.View.OnClickListener;
 import android.util.Log;
 import android.content.Intent;
 import android.widget.NumberPicker;
+import android.content.res.Configuration;
+//import kankan.wheel.R;
+import kankan.wheel.widget.OnWheelChangedListener;
+import kankan.wheel.widget.WheelView;
+import kankan.wheel.widget.adapters.ArrayWheelAdapter;
+import android.os.Handler;
+import com.example.TrackGolfGame.R;
 
 public class MainActivity extends Activity {
 
+	public MainActivity(){
+		
+		playerViews        = new WheelView[4];
+	}
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
     	
         super.onCreate(savedInstanceState);
+        
+        //mLandscapeView = getLayoutInflater().inflate(R.layout.main_landscape, null);
+        //mPortraitView = getLayoutInflater().inflate(R.layout.activity_main, null);
+        
+        //if(getResources().getConfiguration().orientation==Configuration.ORIENTATION_LANDSCAPE)
+        //     setContentView(R.layout.main_landscape);
+        //else
         setContentView(R.layout.activity_main);
         
+        Bundle bundle = this.getIntent().getExtras();
+    	if(bundle!=null && bundle.isEmpty()==false)
+    	{
+    		String _getData = bundle.getString("gameFinished");
+    		if(_getData.isEmpty()==false)
+    		{
+    			skinsGame.getInstance().getGame().goToMainMenu();
+    		}
+    		
+    	}
+                
         Log.v("MainActivity", "mainActivity created, counter=");
         
         
@@ -30,38 +60,166 @@ public class MainActivity extends Activity {
             	skinsGame.getInstance().getGame().startGame();
             	skinsGameInstance tempGame = skinsGame.getInstance().getGame();
             	
-            	EditText playerName = (EditText) findViewById(R.id.teamA_player1);
-            	
-            	player tempPlayer = new player(playerName.getText().toString(),0);
-            	tempGame.players.add(tempPlayer);
-            	tempGame.teams.get(0).addPlayer(tempPlayer);
-            	
-            	playerName = (EditText) findViewById(R.id.teamA_player2);
-            	tempPlayer = new player(playerName.getText().toString(),0);
-            	tempGame.players.add(tempPlayer);
-            	tempGame.teams.get(0).addPlayer(tempPlayer);
-            	
-            	playerName = (EditText) findViewById(R.id.teamB_player1);
-            	tempPlayer = new player(playerName.getText().toString(),0);
-            	tempGame.players.add(tempPlayer);
-            	tempGame.teams.get(1).addPlayer(tempPlayer);
-            	
-            	playerName = (EditText) findViewById(R.id.teamB_player2);
-            	tempPlayer = new player(playerName.getText().toString(),0);
-            	tempGame.players.add(tempPlayer);
-            	tempGame.teams.get(1).addPlayer(tempPlayer);
-            	
+            	for(int idx=0; idx<MAX_NUM_PLAYERS; idx++)
+            	{
+            		player tempPlayer = new player((bShuffled==true)? selected_players_name[selectedPlayerIdx[idx]]:
+            			                                              players_name[selectedPlayerIdx[idx]],
+            			                                              0);
+            		tempGame.players.add(tempPlayer);
+            		tempGame.teams.get(idx/2).addPlayer(tempPlayer);
+            	}
+
             	EditText betMoney = (EditText) findViewById(R.id.betPerHole);
             	tempGame.betUnit = Integer.parseInt(betMoney.getText().toString());
             	 	
-            	Intent secondActivity = new Intent(getApplicationContext(), SecondActivity.class);
-            	Log.v("MainActivity", "starting secondActivity");
-                startActivity(secondActivity);                
+            	//Intent secondActivity = new Intent(getApplicationContext(), SecondActivity.class);
+            	//Log.v("MainActivity", "starting secondActivity");
+                //startActivity(secondActivity);
+            	Intent gameActivity = new Intent(getApplicationContext(), GameActivity.class);
+            	Log.v("MainActivity", "starting gameActivity");
+                startActivity(gameActivity);
             }
         });   
+        
+        
+        for(int idx=0; idx<MAX_NUM_PLAYERS;idx++)
+        {
+        	playerViews[idx]  = (WheelView) findViewById(playerViewIds[idx]);       
+            playerViews[idx].setVisibleItems(10);
+            
+            	
+            ArrayWheelAdapter<String> adapter =
+                    new ArrayWheelAdapter<String>(this, (selected_players_name[idx]==null)? 
+                    									 players_name : selected_players_name);
+            adapter.setTextSize(20);
+            playerViews[idx].setViewAdapter(adapter);
+            if(selectedPlayerIdx[idx]==-1) selectedPlayerIdx[idx]=idx;
+            
+            playerViews[idx].setCurrentItem(selectedPlayerIdx[idx]);
+            playerViews[idx].setCyclic(true);
+       
+            playerViews[idx].addChangingListener(new OnWheelChangedListener() {
+        		public void onChanged(WheelView wheel, int oldValue, int newValue) {
+        			
+        			for(int viewIdx=0; viewIdx < MAX_NUM_PLAYERS; viewIdx++)
+        			{
+        				if(playerViews[viewIdx]==wheel)
+        				{
+        					selectedPlayerIdx[viewIdx] = newValue;
+        				}
+        					
+        			}
+        			
+        		}
+        	});
+        }
+        
+        Button shuffle = (Button) findViewById(R.id.shuffle);
+        
+        shuffle.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {	
+            	shuffleSelectedPlayers();
+            }
+        });
+        
+        Button handi = (Button) findViewById(R.id.handi);
+        
+        handi.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {	
+            	
+            	Intent handiActivity = new Intent(getApplicationContext(), HandiActivity.class);
+            	Log.v("MainActivity", "starting HandiActivity");
+                startActivity(handiActivity);
+            }
+        });
+        
+    }
+    
+    public void shuffleSelectedPlayers() {
+    	Log.v("MainActivity", "shuffleSelectedPlayers");
+    	
+    	bShuffled = true;
+    	
+    	for(int idx=0; idx<MAX_NUM_PLAYERS; idx++)
+    	{
+    		selectedItemsList[idx] = selectedPlayerIdx[idx];
+    		Log.v("MainActivity", "player#" + idx + " = " + selectedItemsList[idx]);
+    		if(selected_players_name[idx]==null)
+    			selected_players_name[idx] = players_name[selectedItemsList[idx]];
+    		selectedItemsList[idx]=idx;
+    	}
+    	
+    	
+    	for(int idx=0;idx<MAX_NUM_PLAYERS;idx++)
+    	{
+    		ArrayWheelAdapter<String> adapter =
+                new ArrayWheelAdapter<String>(this, selected_players_name);
+    		adapter.setTextSize(20);
+    		playerViews[idx].setViewAdapter(adapter);
+    	}
+
+    	scrollIdx = 0;
+    		
+    	playerViews[scrollIdx].scroll(-350 + (int)(Math.random() * 50), 1000);
+    		
+    	mHandler.postDelayed(new Runnable() {
+              public void run() {
+                Log.v("MainActivity", "Finally I'm awake");
+                bCheckScrollData=true;
+                processScrolledData();
+              }
+        }, 2000);     	
     }
 
-
+    public boolean processScrolledData()
+    {
+    	Log.v("MainActivity", "scrollIdx = item" + playerViews[scrollIdx].getCurrentItem());
+    	
+		boolean bFound = false;
+		for (int searchIdx=0; searchIdx<MAX_NUM_PLAYERS; searchIdx++)
+		{
+			Log.v("MainActivity", "Expected item = " + selectedItemsList[searchIdx]);
+			
+			if(selectedItemsList[searchIdx]==playerViews[scrollIdx].getCurrentItem())
+			{
+				bFound = true;
+				selectedItemsList[searchIdx]=-1;
+				Log.v("MainActivity", "Found item");
+				break;
+			}
+		}
+		
+		if(bFound) scrollIdx++;
+			
+		if(scrollIdx<3) // no more scroll ??
+		{
+			playerViews[scrollIdx].scroll(-350 + (int)(Math.random() * 50), 1000);
+    		
+			mHandler.postDelayed(new Runnable() {
+				public void run() {
+					Log.v("MainActivity", "Finally I'm awake");
+					bCheckScrollData=true;
+					processScrolledData();
+               }
+			}, 3000);
+		} else {
+			for (int searchIdx=0; searchIdx<MAX_NUM_PLAYERS; searchIdx++)
+			{
+					
+				if(selectedItemsList[searchIdx]!=-1)
+				{
+					Log.v("MainActivity", "Filling the last item with = " + selectedItemsList[searchIdx]);
+					playerViews[3].setCurrentItem(selectedItemsList[searchIdx]);
+					playerViews[3].setVisibility(View.INVISIBLE);
+					playerViews[3].setVisibility(View.VISIBLE);
+					break;
+					}
+				}
+		}
+			
+		return bFound;
+    }
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -69,6 +227,18 @@ public class MainActivity extends Activity {
         return true;
     }
     
+    
+    @Override
+    public void onConfigurationChanged(Configuration config){
+        if(config.orientation == (int) Configuration.ORIENTATION_LANDSCAPE){
+            //adjust mLandscapeView as needed
+            setContentView(mLandscapeView);
+        }
+        else{
+        	setContentView(mPortraitView);
+        }
+        	
+   }
     
     protected void onStart() {
     	Log.v("MainActivity", "mainActivity onStart");
@@ -99,5 +269,26 @@ public class MainActivity extends Activity {
         super.onDestroy();
         // The activity is about to be destroyed.
     }
-        
+    
+    View mLandscapeView;
+    View mPortraitView;
+    
+    static int selectedPlayerIdx[]={-1,-1,-1,-1};
+    WheelView[] playerViews;
+    static final int MAX_NUM_PLAYERS=4;
+    static int playerViewIds[]={R.id.teamA_player1, R.id.teamA_player2,
+    					 R.id.teamB_player1, R.id.teamB_player2};
+    
+    static String players_name[]={"서 인", "정 수길", "정 현태", "최 보경",
+    	                          "최 성훈", "이 상원", "최 일해", "이 태원",
+    	                          "장 충순", "김 범수", "조 한욱", "문 봉기",
+    	                          "박 창서", "박 성파", "안 성준", 
+    };
+    
+    static String selected_players_name[]= {null, null, null, null};
+    private Handler mHandler = new Handler();
+    static boolean bCheckScrollData = false;
+    static int scrollIdx  = 0;
+    static int selectedItemsList[] = {0,1,2,3};
+    static boolean bShuffled = false;
 }

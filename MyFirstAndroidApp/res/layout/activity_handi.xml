@@ -24,8 +24,6 @@
         android:id="@+id/holeView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TableLayout"
-        android:layout_below="@+id/TableLayout"
         android:text="1"
         android:layout_margin="2dip"
         android:background="@android:color/black"
@@ -37,8 +35,6 @@
         android:id="@+id/holeView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TableLayout"
-        android:layout_below="@+id/TableLayout"
         android:text="2"
         android:layout_margin="2dip"
         android:background="@android:color/black"
@@ -50,8 +46,6 @@
         android:id="@+id/holeView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TableLayout"
-        android:layout_below="@+id/TableLayout"
         android:text="3"
         android:layout_margin="2dip"
         android:background="@android:color/black"
@@ -63,8 +57,6 @@
         android:id="@+id/holeView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TableLayout"
-        android:layout_below="@+id/TableLayout"
         android:text="4"
         android:layout_margin="2dip"
         android:background="@android:color/black"
@@ -77,8 +69,6 @@
         android:id="@+id/holeView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TableLayout"
-        android:layout_below="@+id/TableLayout"
         android:text="5"
         android:layout_margin="2dip"
         android:background="@android:color/black"
@@ -90,8 +80,6 @@
         android:id="@+id/holeView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TableLayout"
-        android:layout_below="@+id/TableLayout"
         android:text="6"
         android:layout_margin="2dip"
         android:background="@android:color/black"
@@ -103,8 +91,6 @@
         android:id="@+id/holeView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TableLayout"
-        android:layout_below="@+id/TableLayout"
         android:text="7"
         android:layout_margin="2dip"
         android:background="@android:color/black"
@@ -116,8 +102,6 @@
         android:id="@+id/holeView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TableLayout"
-        android:layout_below="@+id/TableLayout"
         android:text="8"
         android:layout_margin="2dip"
         android:background="@android:color/black"
@@ -129,8 +113,6 @@
         android:id="@+id/holeView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TableLayout"
-        android:layout_below="@+id/TableLayout"
         android:text="9"
         android:layout_margin="2dip"
         android:background="@android:color/black"
@@ -147,52 +129,44 @@
             android:layout_margin="2dip"
             android:background="@android:color/white">
         
-        <TextView
-        android:id="@+id/ScoreView1"
+        <CheckBox
+        android:id="@+id/HandiHole1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TableLayout"
-        android:layout_below="@+id/TableLayout"
-        android:text="0"
+        android:text=""
         android:layout_margin="2dip"
         android:background="@android:color/black"
         android:padding="5dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/white" />
         
-        <TextView
-        android:id="@+id/ScoreView2"
+        <CheckBox
+        android:id="@+id/HandiHole2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TableLayout"
-        android:layout_below="@+id/TableLayout"
-        android:text="0"
+        android:text=""
         android:layout_margin="2dip"
         android:background="@android:color/black"
         android:padding="5dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/white" />
         
-        <TextView
-        android:id="@+id/scoreView3"
+        <CheckBox
+        android:id="@+id/HandiHole3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TableLayout"
-        android:layout_below="@+id/TableLayout"
-        android:text="0"
+        android:text=""
         android:layout_margin="2dip"
         android:background="@android:color/black"
         android:padding="5dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/white" />
         
-        <TextView
-        android:id="@+id/scoreView4"
+        <CheckBox
+        android:id="@+id/HandiHole4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TableLayout"
-        android:layout_below="@+id/TableLayout"
-        android:text="0"
+        android:text=""
         android:layout_margin="2dip"
         android:background="@android:color/black"
         android:padding="5dp"
@@ -200,65 +174,55 @@
         android:textColor="@android:color/white" />
         
         
-        <TextView
-        android:id="@+id/scoreView5"
+        <CheckBox
+        android:id="@+id/HandiHole5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TableLayout"
-        android:layout_below="@+id/TableLayout"
-        android:text="0"
+        android:text=""
         android:layout_margin="2dip"
         android:background="@android:color/black"
         android:padding="5dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/white" />
         
-        <TextView
-        android:id="@+id/scoreView6"
+        <CheckBox
+        android:id="@+id/HandiHole6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TableLayout"
-        android:layout_below="@+id/TableLayout"
-        android:text="0"
+        android:text=""
         android:layout_margin="2dip"
         android:background="@android:color/black"
         android:padding="5dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/white" />
         
-        <TextView
-        android:id="@+id/scoreView7"
+        <CheckBox
+        android:id="@+id/HandiHole7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TableLayout"
-        android:layout_below="@+id/TableLayout"
-        android:text="0"
+        android:text=""
         android:layout_margin="2dip"
         android:background="@android:color/black"
         android:padding="5dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/white" />
         
-        <TextView
-        android:id="@+id/scoreView8"
+        <CheckBox
+        android:id="@+id/HandiHole8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TableLayout"
-        android:layout_below="@+id/TableLayout"
-        android:text="0"
+        android:text=""
         android:layout_margin="2dip"
         android:background="@android:color/black"
         android:padding="5dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/white" />
         
-        <TextView
-        android:id="@+id/scoreView9"
+        <CheckBox
+        android:id="@+id/HandiHole9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TableLayout"
-        android:layout_below="@+id/TableLayout"
-        android:text="0"
+        android:text=""
         android:layout_margin="2dip"
         android:background="@android:color/black"
         android:padding="5dp"
@@ -277,8 +241,6 @@
         android:id="@+id/holeView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TableLayout"
-        android:layout_below="@+id/TableLayout"
         android:text="10"
         android:layout_margin="2dip"
         android:background="@android:color/black"
@@ -290,8 +252,6 @@
         android:id="@+id/holeView11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TableLayout"
-        android:layout_below="@+id/TableLayout"
         android:text="11"
         android:layout_margin="2dip"
         android:background="@android:color/black"
@@ -303,8 +263,6 @@
         android:id="@+id/holeView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TableLayout"
-        android:layout_below="@+id/TableLayout"
         android:text="12"
         android:layout_margin="2dip"
         android:background="@android:color/black"
@@ -316,8 +274,6 @@
         android:id="@+id/holeView13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TableLayout"
-        android:layout_below="@+id/TableLayout"
         android:text="13"
         android:layout_margin="2dip"
         android:background="@android:color/black"
@@ -330,8 +286,6 @@
         android:id="@+id/holeView14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TableLayout"
-        android:layout_below="@+id/TableLayout"
         android:text="14"
         android:layout_margin="2dip"
         android:background="@android:color/black"
@@ -343,8 +297,6 @@
         android:id="@+id/holeView15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TableLayout"
-        android:layout_below="@+id/TableLayout"
         android:text="15"
         android:layout_margin="2dip"
         android:background="@android:color/black"
@@ -356,8 +308,6 @@
         android:id="@+id/holeView16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TableLayout"
-        android:layout_below="@+id/TableLayout"
         android:text="16"
         android:layout_margin="2dip"
         android:background="@android:color/black"
@@ -369,8 +319,6 @@
         android:id="@+id/holeView17"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TableLayout"
-        android:layout_below="@+id/TableLayout"
         android:text="17"
         android:layout_margin="2dip"
         android:background="@android:color/black"
@@ -382,8 +330,6 @@
         android:id="@+id/holeView18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TableLayout"
-        android:layout_below="@+id/TableLayout"
         android:text="18"
         android:layout_margin="2dip"
         android:background="@android:color/black"
@@ -400,52 +346,44 @@
             android:background="@android:color/white">
         
             
-        <TextView
-        android:id="@+id/ScoreView10"
+        <CheckBox
+        android:id="@+id/HandiHole10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TableLayout"
-        android:layout_below="@+id/TableLayout"
-        android:text="0"
+        android:text=""
         android:layout_margin="2dip"
         android:background="@android:color/black"
         android:padding="5dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/white" />
         
-        <TextView
-        android:id="@+id/ScoreView11"
+        <CheckBox
+        android:id="@+id/HandiHole11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TableLayout"
-        android:layout_below="@+id/TableLayout"
-        android:text="0"
+        android:text=""
         android:layout_margin="2dip"
         android:background="@android:color/black"
         android:padding="5dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/white" />
         
-        <TextView
-        android:id="@+id/scoreView12"
+        <CheckBox
+        android:id="@+id/HandiHole12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TableLayout"
-        android:layout_below="@+id/TableLayout"
-        android:text="0"
+        android:text=""
         android:layout_margin="2dip"
         android:background="@android:color/black"
         android:padding="5dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/white" />
         
-        <TextView
-        android:id="@+id/scoreView13"
+        <CheckBox
+        android:id="@+id/HandiHole13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TableLayout"
-        android:layout_below="@+id/TableLayout"
-        android:text="0"
+        android:text=""
         android:layout_margin="2dip"
         android:background="@android:color/black"
         android:padding="5dp"
@@ -453,65 +391,55 @@
         android:textColor="@android:color/white" />
         
         
-        <TextView
-        android:id="@+id/scoreView14"
+        <CheckBox
+        android:id="@+id/HandiHole14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TableLayout"
-        android:layout_below="@+id/TableLayout"
-        android:text="0"
+        android:text=""
         android:layout_margin="2dip"
         android:background="@android:color/black"
         android:padding="5dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/white" />
         
-        <TextView
-        android:id="@+id/scoreView15"
+        <CheckBox
+        android:id="@+id/HandiHole15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TableLayout"
-        android:layout_below="@+id/TableLayout"
-        android:text="0"
+        android:text=""
         android:layout_margin="2dip"
         android:background="@android:color/black"
         android:padding="5dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/white" />
         
-        <TextView
-        android:id="@+id/scoreView16"
+        <CheckBox
+        android:id="@+id/HandiHole16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TableLayout"
-        android:layout_below="@+id/TableLayout"
-        android:text="0"
+        android:text=""
         android:layout_margin="2dip"
         android:background="@android:color/black"
         android:padding="5dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/white" />
         
-        <TextView
-        android:id="@+id/scoreView17"
+        <CheckBox
+        android:id="@+id/HandiHole17"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TableLayout"
-        android:layout_below="@+id/TableLayout"
-        android:text="0"
+        android:text=""
         android:layout_margin="2dip"
         android:background="@android:color/black"
         android:padding="5dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/white" />
         
-        <TextView
-        android:id="@+id/scoreView18"
+        <CheckBox
+        android:id="@+id/HandiHole18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TableLayout"
-        android:layout_below="@+id/TableLayout"
-        android:text="0"
+        android:text=""
         android:layout_margin="2dip"
         android:background="@android:color/black"
         android:padding="5dp"
@@ -519,40 +447,54 @@
         android:textColor="@android:color/white" />
         </TableRow>
     </TableLayout>
-
+    
+    
     <TextView
-        android:id="@+id/textView1"
+            android:id="@+id/SelectHandiTeam"
+            android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:layout_below="@+id/tableLayout1"
+        	android:layout_marginTop="5dp"
+        	android:text="Select Handi Team" 
+        	android:textColor="@android:color/white"
+        	android:layout_marginLeft="5dp"
+        	 />
+        	
+    <RadioGroup 
+        android:id="@+id/handTeam"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tableLayout1"
         android:layout_below="@+id/tableLayout1"
-        android:layout_marginTop="22dp"
-        android:text="Total"
         android:textColor="@android:color/white"
-        android:padding="5dp"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/totalScoreView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView1"
-        android:layout_alignBottom="@+id/textView1"
-        android:layout_marginLeft="18dp"
-        android:layout_toRightOf="@+id/textView1"
-        android:text="0"
-        android:textColor="@android:color/white"
-        android:padding="5dp"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="20dp">
+        
+        <RadioButton
+            android:id="@+id/TeamA"
+            android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:text="team A" 
+        	android:checked="true" 
+        	android:layout_marginLeft="5dp"
+        	android:textColor="@android:color/white"/>
+        <RadioButton
+            android:id="@+id/TeamB"
+            android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:text="team B" 
+        	android:checked="false" 
+        	android:layout_marginLeft="5dp"
+        	android:textColor="@android:color/white"/>    
+    </RadioGroup>
 
     <Button
         android:id="@+id/goBackToHomeButton"
+        style="@style/btnStyleBeige"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/totalScoreView"
-        android:layout_alignBottom="@+id/totalScoreView"
+        android:layout_alignTop="@+id/SelectHandiTeam"
         android:layout_alignRight="@+id/tableLayout1"
-        android:text="Go back to game" 
-        style="@style/btnStyleBeige"
-        />
+        android:layout_marginRight="14dp"
+        android:text="Go back to game" />
+
 </RelativeLayout>
