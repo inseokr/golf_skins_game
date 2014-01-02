@@ -12,7 +12,7 @@ import android.widget.RadioButton;
 import android.widget.CheckBox;
 import android.view.View.OnClickListener;
 
-import com.example.TrackGolfGame.R;
+import com.example.myfirstandroidapp.R;
 
 
 
@@ -26,11 +26,23 @@ public class HandiActivity extends Activity {
 	
 	super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_handi);
-
+    skinsGameInstance game = skinsGame.getInstance().getGame();
     
-    for(int idx=0;idx<18;idx++)
+    for(int holeIdx=0;holeIdx<18;holeIdx++)
     {
-    	CheckBox handiCheckBox = (CheckBox) findViewById(handiHoles[idx]);
+    	if(game.getHandiHole(holeIdx)==true)
+    	{
+    	
+    	}
+    }
+    
+    for(int holeIdx=0;holeIdx<18;holeIdx++)
+    {
+    	CheckBox handiCheckBox = (CheckBox) findViewById(handiHoles[holeIdx]);
+    	if(game.getHandiHole(holeIdx)==true)
+    	{
+    		handiCheckBox.setChecked(true);
+    	}
     	
     	handiCheckBox.setOnClickListener(new OnClickListener(){
     		@Override

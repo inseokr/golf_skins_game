@@ -15,7 +15,7 @@ import android.graphics.Color;
 import android.widget.TextView;
 import android.view.ViewGroup;
 
-import com.example.TrackGolfGame.R;
+import com.example.myfirstandroidapp.R;
 
 import java.util.ListIterator;
 

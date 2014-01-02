@@ -92,15 +92,15 @@
         android:textColor="@android:color/white" />
     
      <Button
-         android:id="@+id/button1"
-         style="@style/btnStyleBeige"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_below="@+id/BirdieView"
-         android:layout_marginTop="38dp"
-         android:layout_toRightOf="@+id/BirdieView"
-         android:ems="15"
-         android:text="Start New Game" />
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/BirdieView"
+        android:layout_below="@+id/BirdieView"
+        android:layout_marginTop="38dp"
+        android:ems="15"
+        android:text="게임 시작"
+        style="@style/btnStyleBeige"/>    
 
      <EditText
          android:id="@+id/betPerHole"
@@ -111,10 +111,7 @@
          android:layout_marginRight="60dp"
          style="@style/btnStyleBeige"
          android:ems="5"
-         android:text="5"
-         android:inputType="number" 
-         android:enabled="false"
-         android:focusable="false"/>
+         android:inputType="number" />
 
      <EditText
          android:id="@+id/birdieMoney"
@@ -126,10 +123,7 @@
          
          style="@style/btnStyleBeige"
          android:ems="5"
-         android:inputType="number" 
-         android:text="5"
-         android:enabled="false"
-         android:focusable="false"/>
+         android:inputType="number" />
 
      <Button
          android:id="@+id/shuffle"
@@ -141,28 +135,6 @@
          android:layout_marginLeft="10dp"
          style="@style/btnStyleBeige"
          android:text="Shuffle" />
-
-     <Button
-         android:id="@+id/handi"
-         android:layout_width="50dp"
-         android:layout_height="30dp"
-         android:layout_alignParentRight="true"
-         android:layout_below="@+id/shuffle"
-         android:layout_marginTop="10dp"
-         android:layout_alignLeft="@+id/shuffle"
-         style="@style/btnStyleBeige"
-         android:text="Handi" />
-
-     <Button
-         android:id="@+id/RestoreGameData"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_alignBottom="@+id/button1"
-         android:layout_alignLeft="@+id/BirdieView"
-         android:layout_alignRight="@+id/betPerHoleView"
-         android:layout_alignTop="@+id/button1"
-         style="@style/btnStyleBeige"
-         android:text="Resume" />
 
 </RelativeLayout>
 </ScrollView>

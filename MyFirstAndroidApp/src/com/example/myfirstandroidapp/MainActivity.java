@@ -17,7 +17,9 @@ import kankan.wheel.widget.OnWheelChangedListener;
 import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.ArrayWheelAdapter;
 import android.os.Handler;
-import com.example.TrackGolfGame.R;
+import com.example.myfirstandroidapp.R;
+import android.content.Context;
+import android.content.SharedPreferences;
 
 public class MainActivity extends Activity {
 
@@ -37,20 +39,33 @@ public class MainActivity extends Activity {
         //if(getResources().getConfiguration().orientation==Configuration.ORIENTATION_LANDSCAPE)
         //     setContentView(R.layout.main_landscape);
         //else
+        
         setContentView(R.layout.activity_main);
+        
+        gameInstance = skinsGame.getInstance().getGame();
         
         Bundle bundle = this.getIntent().getExtras();
     	if(bundle!=null && bundle.isEmpty()==false)
     	{
     		String _getData = bundle.getString("gameFinished");
-    		if(_getData.isEmpty()==false)
+    		if(_getData!=null && _getData.isEmpty()==false)
     		{
-    			skinsGame.getInstance().getGame().goToMainMenu();
-    		}
-    		
+    			gameInstance = skinsGame.getInstance().getNewGame();
+    		}		
     	}
                 
-        Log.v("MainActivity", "mainActivity created, counter=");
+        Log.v("MainActivity", "mainActivity created");
+        
+        final Button restoreButton = (Button) findViewById(R.id.RestoreGameData);
+        restoreButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				resumePreviousGame();
+				
+			}
+		});
         
         
         final Button button1 = (Button) findViewById(R.id.button1);
@@ -133,6 +148,17 @@ public class MainActivity extends Activity {
             }
         });
         
+        bundle = this.getIntent().getExtras();
+        if(bundle!=null && bundle.isEmpty()==false)
+        {
+        	int lastPlayedHole = bundle.getInt("ResumeGame", -1);
+        	if(lastPlayedHole>0)
+        	{
+        		// replay game based on saved scores.
+        		gameInstance = skinsGame.getInstance().getNewGame();
+        		resumePreviousGame();
+        	}
+        }
     }
     
     public void shuffleSelectedPlayers() {
@@ -240,6 +266,78 @@ public class MainActivity extends Activity {
         	
    }
     
+    public void resumePreviousGame()
+    {
+    	SharedPreferences gameData = getApplicationContext().getSharedPreferences("SKINS_GAME_NAME", 0);
+    	
+    	// 1. Get last played hole
+    	int lastPlayedHole = gameData.getInt("LastPlayedHole", 1);
+    	
+    	
+    	// 2. handi information
+    	gameInstance.setHandiTeam(gameData.getInt("HandiTeamIdx", 0)); 
+    	int handiHoleList = gameData.getInt("HandiHoleList", 0x00000000);
+    	
+    	EditText betMoney = (EditText) findViewById(R.id.betPerHole);
+    	
+    	betMoney.setText(Integer.toString(handiHoleList));
+    	betMoney.setVisibility(View.INVISIBLE);
+    	betMoney.setVisibility(View.VISIBLE);
+    	
+    	int handiHoleMask = 0x00000001;
+    	int maskedValue   = 0x00000000;
+    	
+    	for(int holeIdx=0;holeIdx<18;holeIdx++)
+    	{
+    		maskedValue = 0x00000000;
+    		int adjustedMask = handiHoleMask << holeIdx;
+    		maskedValue = handiHoleList & adjustedMask;
+    		if(maskedValue!=0x00000000)
+    		{
+    			gameInstance.setHandiHole(holeIdx);
+    		}
+    	}
+    	
+    	// 3. player information
+    	for(int playerIdx=0;playerIdx<4;playerIdx++)
+    	{
+    		selected_players_name[playerIdx] = gameData.getString(savedPlayerVariables[playerIdx], "Seo In");
+    		selectedItemsList[playerIdx]=playerIdx;        	
+    	}	
+    	
+    	for(int playerIdx=0;playerIdx<4;playerIdx++)
+    	{
+    	
+    		ArrayWheelAdapter<String> adapter =
+                new ArrayWheelAdapter<String>(this, selected_players_name);
+    		adapter.setTextSize(20);
+    		playerViews[playerIdx].setViewAdapter(adapter);
+    		playerViews[playerIdx].setCurrentItem(playerIdx);
+    		playerViews[playerIdx].setVisibility(View.INVISIBLE);
+    		playerViews[playerIdx].setVisibility(View.VISIBLE);
+    	}
+    	
+    	
+    	gameInstance.startGame();
+    	
+    	for(int playerIdx=0; playerIdx<MAX_NUM_PLAYERS; playerIdx++)
+    	{
+    		player tempPlayer = new player(selected_players_name[selectedItemsList[playerIdx]], 0);
+    		gameInstance.players.add(tempPlayer);
+    		gameInstance.teams.get(playerIdx/2).addPlayer(tempPlayer);
+    	}
+
+    	// Not saved yet.
+    	gameInstance.betUnit = 5;
+    	 	
+    	Intent gameActivity = new Intent(getApplicationContext(), GameActivity.class);
+    	Log.v("MainActivity", "starting gameActivity");
+    	Bundle bnd = new Bundle();
+        bnd.putInt("ResumeGame", lastPlayedHole);
+        gameActivity.putExtras(bnd);
+        startActivity(gameActivity);
+    }
+    
     protected void onStart() {
     	Log.v("MainActivity", "mainActivity onStart");
         super.onStart();
@@ -291,4 +389,8 @@ public class MainActivity extends Activity {
     static int scrollIdx  = 0;
     static int selectedItemsList[] = {0,1,2,3};
     static boolean bShuffled = false;
+    static String savedPlayerVariables[] = {"TeamA_Player1_Name", "TeamA_Player2_Name", 
+    										"TeamB_Player1_Name", "TeamB_Player2_Name"
+    };
+    skinsGameInstance gameInstance;
 }

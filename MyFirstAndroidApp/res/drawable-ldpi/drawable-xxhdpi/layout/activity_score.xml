@@ -174,7 +174,7 @@
         android:textColor="@android:color/white" />
         
         <TextView
-        android:id="@+id/ScoreView3"
+        android:id="@+id/scoreView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/TableLayout"
@@ -187,7 +187,7 @@
         android:textColor="@android:color/white" />
         
         <TextView
-        android:id="@+id/ScoreView4"
+        android:id="@+id/scoreView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/TableLayout"
@@ -201,7 +201,7 @@
         
         
         <TextView
-        android:id="@+id/ScoreView5"
+        android:id="@+id/scoreView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/TableLayout"
@@ -214,7 +214,7 @@
         android:textColor="@android:color/white" />
         
         <TextView
-        android:id="@+id/ScoreView6"
+        android:id="@+id/scoreView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/TableLayout"
@@ -227,7 +227,7 @@
         android:textColor="@android:color/white" />
         
         <TextView
-        android:id="@+id/ScoreView7"
+        android:id="@+id/scoreView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/TableLayout"
@@ -240,7 +240,7 @@
         android:textColor="@android:color/white" />
         
         <TextView
-        android:id="@+id/ScoreView8"
+        android:id="@+id/scoreView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/TableLayout"
@@ -253,7 +253,7 @@
         android:textColor="@android:color/white" />
         
         <TextView
-        android:id="@+id/ScoreView9"
+        android:id="@+id/scoreView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/TableLayout"
@@ -427,7 +427,7 @@
         android:textColor="@android:color/white" />
         
         <TextView
-        android:id="@+id/ScoreView12"
+        android:id="@+id/scoreView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/TableLayout"
@@ -440,7 +440,7 @@
         android:textColor="@android:color/white" />
         
         <TextView
-        android:id="@+id/ScoreView13"
+        android:id="@+id/scoreView13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/TableLayout"
@@ -454,7 +454,7 @@
         
         
         <TextView
-        android:id="@+id/ScoreView14"
+        android:id="@+id/scoreView14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/TableLayout"
@@ -467,7 +467,7 @@
         android:textColor="@android:color/white" />
         
         <TextView
-        android:id="@+id/ScoreView15"
+        android:id="@+id/scoreView15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/TableLayout"
@@ -480,7 +480,7 @@
         android:textColor="@android:color/white" />
         
         <TextView
-        android:id="@+id/ScoreView16"
+        android:id="@+id/scoreView16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/TableLayout"
@@ -493,7 +493,7 @@
         android:textColor="@android:color/white" />
         
         <TextView
-        android:id="@+id/ScoreView17"
+        android:id="@+id/scoreView17"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/TableLayout"
@@ -506,7 +506,7 @@
         android:textColor="@android:color/white" />
         
         <TextView
-        android:id="@+id/ScoreView18"
+        android:id="@+id/scoreView18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/TableLayout"

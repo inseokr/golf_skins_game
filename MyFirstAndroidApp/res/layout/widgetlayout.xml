@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@drawable/layout_bg"
+  android:padding="0.1dp">
+
+    <Button
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="17dp"
+        android:layout_marginTop="26dp"
+        android:background="@drawable/layout_bg"
+        android:padding="5dp"
+        android:text="Player Name"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/teamA_player1"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignLeft="@+id/textView1"
+        android:layout_alignRight="@+id/textView1"
+        android:layout_below="@+id/textView1"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/layout_bg"
+        android:text="In Seo"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/teamA_player2"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignLeft="@+id/teamA_player1"
+        android:layout_alignRight="@+id/teamA_player1"
+        android:layout_below="@+id/teamA_player1"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/layout_bg"
+        android:text="Jung Soogil"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/teamB_player1"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignLeft="@+id/teamA_player2"
+        android:layout_alignRight="@+id/teamA_player2"
+        android:layout_below="@+id/teamA_player2"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/layout_bg"
+        android:text="Sunghoon"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/teamB_player2"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignLeft="@+id/teamB_player1"
+        android:layout_alignRight="@+id/teamA_player2"
+        android:layout_below="@+id/teamB_player1"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/layout_bg"
+        android:text="Sangwon Lee"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_alignTop="@+id/textView1"
+        android:layout_alignBottom="@+id/textView1"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="60dp"
+        android:text="Score"
+        android:background="@drawable/layout_bg"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/player1_score"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignLeft="@+id/textView3"
+        android:layout_alignRight="@+id/textView3"
+        android:layout_alignTop="@+id/teamA_player1"
+        android:layout_margin="2dip"
+        android:background="@drawable/layout_bg"
+        android:padding="5dp"
+        android:text="0"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/white" />
+    
+    <Button
+        android:id="@+id/player2_score"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignLeft="@+id/textView3"
+        android:layout_alignRight="@+id/player1_score"
+        android:layout_alignTop="@+id/teamA_player2"
+        android:layout_margin="2dip"
+        android:background="@drawable/layout_bg"
+        android:padding="5dp"
+        android:text="0"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/white" />
+    
+    <Button
+        android:id="@+id/player3_score"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignLeft="@+id/textView3"
+        android:layout_alignRight="@+id/player2_score"
+        android:layout_alignTop="@+id/teamB_player1"
+        android:layout_margin="2dip"
+        android:background="@drawable/layout_bg"
+        android:padding="5dp"
+        android:text="0"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/white" />
+    
+    <Button
+        android:id="@+id/player4_score"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignLeft="@+id/textView3"
+        android:layout_alignRight="@+id/player2_score"
+        android:layout_alignTop="@+id/teamB_player2"
+        android:layout_margin="2dip"
+        android:background="@drawable/layout_bg"
+        android:padding="5dp"
+        android:text="0"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/UpdateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/player4_score"
+        android:layout_below="@+id/player4_score"
+        android:layout_marginTop="22dp"
+        android:background="@drawable/layout_bg"
+        android:text="Update"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/teamB_player2"
+        android:layout_alignTop="@+id/UpdateButton"
+        android:text="Hole Number"
+        android:textColor="@android:color/white"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/holeNumberView"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBaseline="@+id/textView2"
+        android:layout_alignBottom="@+id/textView2"
+        android:layout_centerHorizontal="true"
+        android:textColor="@android:color/white"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="1" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_below="@+id/UpdateButton"
+        android:text="Team A"
+        android:textColor="@android:color/white"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/textView4"
+        android:layout_below="@+id/textView4"
+        android:layout_marginTop="14dp"
+        android:text="Team B"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/teamA_Score"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignRight="@+id/holeNumberView"
+        android:layout_alignTop="@+id/textView4"
+        android:layout_below="@+id/UpdateButton"
+        android:textColor="@android:color/white"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="0" />
+
+    <TextView
+        android:id="@+id/teamB_Score"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignTop="@+id/textView5"
+        android:layout_alignBottom="@+id/textView5"
+        android:layout_alignLeft="@+id/teamA_Score"
+        android:text="0"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/white" />
+
+</RelativeLayout>

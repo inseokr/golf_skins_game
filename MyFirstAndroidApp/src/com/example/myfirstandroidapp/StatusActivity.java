@@ -12,7 +12,7 @@ import android.widget.TableLayout;
 import android.content.Intent;
 import android.widget.TextView;
 import android.view.ViewGroup;
-import com.example.TrackGolfGame.R;
+import com.example.myfirstandroidapp.R;
 import kankan.wheel.widget.OnWheelChangedListener;
 import kankan.wheel.widget.OnWheelScrollListener;
 import kankan.wheel.widget.WheelView;
@@ -38,69 +38,33 @@ public class StatusActivity extends Activity {
 
     skinsGameInstance tempGame = skinsGame.getInstance().getGame();
     
-    TextView tempScoreView = (TextView) findViewById(R.id.ScoreView1);
-    tempScoreView.setText(Integer.toString(tempGame.players.get(playerIdx).getScore(0)));
+    int totalScore=0;
     
-    tempScoreView = (TextView) findViewById(R.id.ScoreView2);
-    tempScoreView.setText(Integer.toString(tempGame.players.get(playerIdx).getScore(1)));
     
-    tempScoreView = (TextView) findViewById(R.id.scoreView3);
-    tempScoreView.setText(Integer.toString(tempGame.players.get(playerIdx).getScore(2)));
-    
-    tempScoreView = (TextView) findViewById(R.id.scoreView4);
-    tempScoreView.setText(Integer.toString(tempGame.players.get(playerIdx).getScore(3)));
-    
-    tempScoreView = (TextView) findViewById(R.id.scoreView5);
-    tempScoreView.setText(Integer.toString(tempGame.players.get(playerIdx).getScore(4)));
-   
-    tempScoreView = (TextView) findViewById(R.id.scoreView6);
-    tempScoreView.setText(Integer.toString(tempGame.players.get(playerIdx).getScore(5)));
-
-    tempScoreView = (TextView) findViewById(R.id.scoreView7);
-    tempScoreView.setText(Integer.toString(tempGame.players.get(playerIdx).getScore(6)));
-    
-    tempScoreView = (TextView) findViewById(R.id.scoreView8);
-    tempScoreView.setText(Integer.toString(tempGame.players.get(playerIdx).getScore(7)));
-     
-    tempScoreView = (TextView) findViewById(R.id.scoreView9);
-    tempScoreView.setText(Integer.toString(tempGame.players.get(playerIdx).getScore(8)));
-    
-    tempScoreView = (TextView) findViewById(R.id.ScoreView10);
-    tempScoreView.setText(Integer.toString(tempGame.players.get(playerIdx).getScore(9)));
-    
-    tempScoreView = (TextView) findViewById(R.id.ScoreView11);
-    tempScoreView.setText(Integer.toString(tempGame.players.get(playerIdx).getScore(10)));
-     
-    tempScoreView = (TextView) findViewById(R.id.scoreView12);
-    tempScoreView.setText(Integer.toString(tempGame.players.get(playerIdx).getScore(11)));
-    
-    tempScoreView = (TextView) findViewById(R.id.scoreView13);
-    tempScoreView.setText(Integer.toString(tempGame.players.get(playerIdx).getScore(12)));
-    
-    tempScoreView = (TextView) findViewById(R.id.scoreView14);
-    tempScoreView.setText(Integer.toString(tempGame.players.get(playerIdx).getScore(13)));
-    
-    tempScoreView = (TextView) findViewById(R.id.scoreView15);
-    tempScoreView.setText(Integer.toString(tempGame.players.get(playerIdx).getScore(14)));
-    
-    tempScoreView = (TextView) findViewById(R.id.scoreView16);
-    tempScoreView.setText(Integer.toString(tempGame.players.get(playerIdx).getScore(15)));
-     
-    tempScoreView = (TextView) findViewById(R.id.scoreView17);
-    tempScoreView.setText(Integer.toString(tempGame.players.get(playerIdx).getScore(16)));
-    
-    tempScoreView = (TextView) findViewById(R.id.scoreView18);
-    tempScoreView.setText(Integer.toString(tempGame.players.get(playerIdx).getScore(17)));
+    for(int holeIdx=0; holeIdx<18; holeIdx++)
+    {
+    	TextView tempScoreView = (TextView) findViewById(scoreViewList[holeIdx]);
+    	if(holeIdx<tempGame.curHole-1)
+    	{
+    		int curScore = tempGame.players.get(playerIdx).getScore(holeIdx) - tempGame.getParStrokes(holeIdx);
+    		tempScoreView.setText(Integer.toString(curScore));
+    		totalScore += curScore;
+    	} 
+    	else
+    	{
+    		tempScoreView.setText("-");
+    	}
+    }
     
     TableLayout tableLayout = (TableLayout) findViewById(R.id.tableLayout1);
     tableLayout.setVisibility(View.INVISIBLE);
     tableLayout.setVisibility(View.VISIBLE);
     
-    TextView totalScore = (TextView) findViewById(R.id.totalScoreView);
+    TextView totalScoreView = (TextView) findViewById(R.id.totalScoreView);
     
-    totalScore.setText(Integer.toString(tempGame.players.get(playerIdx).getTotalScore()));
-    totalScore.setVisibility(View.INVISIBLE);
-    totalScore.setVisibility(View.VISIBLE);
+    totalScoreView.setText(Integer.toString(totalScore));
+    totalScoreView.setVisibility(View.INVISIBLE);
+    totalScoreView.setVisibility(View.VISIBLE);
     
     final Button homeButton = (Button) findViewById(R.id.goBackToHomeButton);
     homeButton.setOnClickListener(new View.OnClickListener() {
@@ -108,11 +72,12 @@ public class StatusActivity extends Activity {
         	Intent gameActivity = new Intent(getApplicationContext(), GameActivity.class);
             startActivity(gameActivity);                
         }
-    });
-    
-
-      
-        
+    });  
     
 	}
+	
+	static int scoreViewList[]={R.id.ScoreView1, R.id.ScoreView2, R.id.ScoreView3, R.id.ScoreView4, R.id.ScoreView5, R.id.ScoreView6,
+        R.id.ScoreView7, R.id.ScoreView8, R.id.ScoreView9, R.id.ScoreView10, R.id.ScoreView11, R.id.ScoreView12,
+        R.id.ScoreView13, R.id.ScoreView14, R.id.ScoreView15, R.id.ScoreView16, R.id.ScoreView17, R.id.ScoreView18
+};
 }
