@@ -8,8 +8,8 @@
 
     <Button
         android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="17dp"
@@ -29,6 +29,7 @@
         android:layout_below="@+id/textView1"
         android:layout_marginTop="20dp"
         android:background="@drawable/layout_bg"
+        android:gravity="center"
         android:text="In Seo"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@android:color/white" />
@@ -41,6 +42,7 @@
         android:layout_alignRight="@+id/teamA_player1"
         android:layout_below="@+id/teamA_player1"
         android:layout_marginTop="20dp"
+        android:gravity="center"
         android:background="@drawable/layout_bg"
         android:text="Jung Soogil"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -55,6 +57,7 @@
         android:layout_below="@+id/teamA_player2"
         android:layout_marginTop="20dp"
         android:background="@drawable/layout_bg"
+        android:gravity="center"
         android:text="Sunghoon"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@android:color/white" />
@@ -67,6 +70,7 @@
         android:layout_alignRight="@+id/teamA_player2"
         android:layout_below="@+id/teamB_player1"
         android:layout_marginTop="20dp"
+        android:gravity="center"
         android:background="@drawable/layout_bg"
         android:text="Sangwon Lee"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -77,10 +81,10 @@
         android:layout_width="60dp"
         android:layout_height="30dp"
         android:layout_alignTop="@+id/textView1"
-        android:layout_alignBottom="@+id/textView1"
         android:layout_alignParentRight="true"
         android:layout_marginRight="60dp"
         android:text="Score"
+        android:padding="5dp"
         android:background="@drawable/layout_bg"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@android:color/white" />
@@ -93,7 +97,6 @@
         android:layout_alignLeft="@+id/textView3"
         android:layout_alignRight="@+id/textView3"
         android:layout_alignTop="@+id/teamA_player1"
-        android:layout_margin="2dip"
         android:background="@drawable/layout_bg"
         android:padding="5dp"
         android:text="0"
@@ -108,7 +111,6 @@
         android:layout_alignLeft="@+id/textView3"
         android:layout_alignRight="@+id/player1_score"
         android:layout_alignTop="@+id/teamA_player2"
-        android:layout_margin="2dip"
         android:background="@drawable/layout_bg"
         android:padding="5dp"
         android:text="0"
@@ -123,7 +125,6 @@
         android:layout_alignLeft="@+id/textView3"
         android:layout_alignRight="@+id/player2_score"
         android:layout_alignTop="@+id/teamB_player1"
-        android:layout_margin="2dip"
         android:background="@drawable/layout_bg"
         android:padding="5dp"
         android:text="0"
@@ -138,7 +139,6 @@
         android:layout_alignLeft="@+id/textView3"
         android:layout_alignRight="@+id/player2_score"
         android:layout_alignTop="@+id/teamB_player2"
-        android:layout_margin="2dip"
         android:background="@drawable/layout_bg"
         android:padding="5dp"
         android:text="0"
@@ -154,6 +154,7 @@
         android:layout_marginTop="22dp"
         android:background="@drawable/layout_bg"
         android:text="Update"
+        android:gravity="top"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@android:color/white" />
 
@@ -163,8 +164,9 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/teamB_player2"
         android:layout_alignTop="@+id/UpdateButton"
-        android:text="Hole Number"
+        android:text="Current Hole"
         android:textColor="@android:color/white"
+        android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -221,4 +223,27 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@android:color/white" />
 
+    <Button
+        android:id="@+id/button1"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="250dp"
+        android:layout_height="2dp"
+        android:layout_alignLeft="@+id/teamB_player2"
+        android:layout_below="@+id/teamB_player2"
+        android:layout_marginTop="10dp"
+        android:text=""
+        android:background="@android:color/white" />
+
+    <Button
+        android:id="@+id/button2"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="250dp"
+        android:layout_height="2dp"
+        android:layout_alignLeft="@+id/textView5"
+        android:layout_below="@+id/textView5"
+        android:layout_marginTop="10dp"
+        android:text=""
+        android:background="@android:color/white" />
+    
+        
 </RelativeLayout>

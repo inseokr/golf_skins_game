@@ -21,7 +21,7 @@ public class CurrentMoodWidgetProvider extends AppWidgetProvider {
 	public static int widgetid=0;
 	public static RemoteViews rviews;
 	public static AppWidgetManager widgetMan;
-	private skinsGameInstance gameInstance=null;
+	private static skinsGameInstance gameInstance=null;
 	static Intent uploadScore;
 	PendingIntent uploadScorePendingIntent;
 	static Intent scoreUpdate[];
@@ -35,9 +35,15 @@ public class CurrentMoodWidgetProvider extends AppWidgetProvider {
 		
 	}
 	
+	public static boolean isCreated() { return (gameInstance!=null) ? true: false; }
+	
 	public static void updateTextView(int widgetid_, int viewId, String text)
 	{
+		//Log.v("CurrentMoodService", "updateTextView: widgetId = " + widgetid);
+		
 		rviews.setTextViewText(viewId, text);
+		rviews.setViewVisibility(viewId, View.INVISIBLE);
+		rviews.setViewVisibility(viewId, View.VISIBLE);
 		if(widgetid_==0)
 		{
 			widgetMan.updateAppWidget(widgetid, rviews);
@@ -74,7 +80,7 @@ public class CurrentMoodWidgetProvider extends AppWidgetProvider {
 		    int appWidgetId = appWidgetIds[i];
 		    widgetid = appWidgetId;
 		    		    
-		    //Log.i(WIDGETTAG, "updating widget[id] " + appWidgetId);
+		    Log.v(WIDGETTAG, "updating widget[id] " + appWidgetId);
 
 		    RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widgetlayout);
 		    rviews = views;
@@ -115,6 +121,7 @@ public class CurrentMoodWidgetProvider extends AppWidgetProvider {
 		    uploadScore.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
 		    uploadScore.putExtra("appPlayerIndexNumber", 2);
 		    uploadScorePendingIntent = PendingIntent.getService(context, 0, uploadScore, 0);
+		    
 		    views.setOnClickPendingIntent(R.id.UpdateButton, uploadScorePendingIntent);
 		    
 		    Log.v(WIDGETTAG, "upload_score. widgetid = " + appWidgetId);
@@ -127,5 +134,13 @@ public class CurrentMoodWidgetProvider extends AppWidgetProvider {
 		    // Tell the AppWidgetManager to perform an update on the current App Widget
 		    appWidgetManager.updateAppWidget(appWidgetId, views);
 		}
-	}	
+		
+	}
+	
+	@Override
+	public void onDeleted(Context context, int[] appWidgetIds) 
+	{
+		super.onDeleted(context, appWidgetIds);
+		gameInstance = null;
+	}
 }

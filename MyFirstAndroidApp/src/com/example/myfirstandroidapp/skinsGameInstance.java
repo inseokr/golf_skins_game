@@ -101,34 +101,42 @@ import android.content.SharedPreferences;
 			
 		}
 		
-		  void resetGame() {
+		  void resetGame(boolean bCleanObjects) {
 			
 			Log.v("skinsGameInstance", "goToMainMenu");
 			
-			// delete team and players
-			ListIterator <player>iterator1 = players.listIterator();
-			while(iterator1.hasNext())
+			if(bCleanObjects)
 			{
-				player temp = iterator1.next();
-				temp = null;
-				iterator1.remove();
+				// delete team and players
+				ListIterator <player>iterator1 = players.listIterator();
+				while(iterator1.hasNext())
+				{
+					player temp = iterator1.next();
+					temp = null;
+					iterator1.remove();
+				}
+			
+				ListIterator <team>iterator2 = teams.listIterator();
+				while(iterator2.hasNext())
+				{
+					team temp = iterator2.next();
+					temp = null;
+					iterator2.remove();
+				}
+			
+			
+				ListIterator <holeLog>iterator3 = holeLogs.listIterator();
+				while(iterator3.hasNext())
+				{
+					holeLog temp = iterator3.next();
+					temp = null;
+					iterator3.remove();
+				}
 			}
-			
-			ListIterator <team>iterator2 = teams.listIterator();
-			while(iterator2.hasNext())
+			else
 			{
-				team temp = iterator2.next();
-				temp = null;
-				iterator2.remove();
-			}
-			
-			
-			ListIterator <holeLog>iterator3 = holeLogs.listIterator();
-			while(iterator3.hasNext())
-			{
-				holeLog temp = iterator3.next();
-				temp = null;
-				iterator3.remove();
+				teams.get(0).numOfWins = 0;
+				teams.get(1).numOfWins = 0;
 			}
 			
 			this.curHole = 1;

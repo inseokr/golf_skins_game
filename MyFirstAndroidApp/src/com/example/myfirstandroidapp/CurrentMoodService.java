@@ -25,6 +25,7 @@ public class CurrentMoodService extends Service {
 	public static final String REFRESH_SCORE[] = {"RefreshScore_1", "RefreshScore_2", "RefreshScore_3", "RefreshScore_4"};
 	public static final String UPLOAD_SCORE = "UploadScore";
 	public static final String CURRENTMOOD = "CurrentMood";
+	public static final String REFRESH_GAME_STATUS = "RefreshGameStatus";
 	private static skinsGameInstance gameInstance;
 	private static int widgetId=0;
 	public static int scoreViewIds[]={R.id.player1_score, R.id.player2_score, R.id.player3_score, R.id.player4_score};
@@ -37,9 +38,12 @@ public class CurrentMoodService extends Service {
 	}
 
 
+	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		super.onStart(intent, startId);
+		
+		gameInstance = skinsGame.getInstance().getGame();
 		
         Log.v(CurrentMoodWidgetProvider.WIDGETTAG, "onStartCommand");        
         manageGame(intent);
@@ -58,6 +62,40 @@ public class CurrentMoodService extends Service {
 		else return -1;
 	}
 	
+	private void refreshView()
+	{
+		if(CurrentMoodWidgetProvider.isCreated()==false) return;
+		
+		Log.v("CurrentModdService", "refreshView: curHole = " + gameInstance.curHole);
+		
+		for(int playerIdx=0; playerIdx<4; playerIdx++)
+    	{
+			//Log.v("CurrentModdService", "playerIdx = " + playerIdx);
+			
+    		CurrentMoodWidgetProvider.updateTextView(0, CurrentMoodService.scoreViewIds[playerIdx],
+    				Integer.toString(gameInstance.getAdjustedTotal(playerIdx, gameInstance.curHole-1)));
+    	}
+    	
+    	CurrentMoodWidgetProvider.updateTextView(0, R.id.teamA_Score,
+    				Integer.toString(gameInstance.teams.get(0).getNumOfWins()));
+    	
+    	Log.v("CurrentModdService", "teamA_Score = " + gameInstance.teams.get(0).getNumOfWins());
+    	
+    	CurrentMoodWidgetProvider.updateTextView(0, R.id.teamB_Score,
+				Integer.toString(gameInstance.teams.get(1).getNumOfWins()));
+    	CurrentMoodWidgetProvider.updateTextView(0, R.id.holeNumberView,
+				Integer.toString(gameInstance.curHole));
+    	
+    	if(gameInstance.getHandiHole(gameInstance.curHole-1)==true)
+	    {
+    		CurrentMoodWidgetProvider.updateTextColor(0, R.id.holeNumberView, Color.parseColor("#FF0000"));
+	    } 
+    	else
+	    {
+    		CurrentMoodWidgetProvider.updateTextColor(0, R.id.holeNumberView, Color.parseColor("#FFFFFF"));
+	    }
+	}
+	
 	private void manageGame(Intent intent) {
 				
         Log.v(CurrentMoodWidgetProvider.WIDGETTAG, "This is the intent " + intent);
@@ -71,10 +109,10 @@ public class CurrentMoodService extends Service {
 	            	curScores[playerIdx] += 1;
 	            	if(curScores[playerIdx]>gameInstance.getParStrokes()) curScores[playerIdx]=-1;
 	            	
-	            	Log.v(CurrentMoodWidgetProvider.WIDGETTAG, "curScores = " + curScores[playerIdx]);
+	            	//Log.v(CurrentMoodWidgetProvider.WIDGETTAG, "curScores = " + curScores[playerIdx]);
 	            	
 	            	CurrentMoodWidgetProvider.updateTextView(0, scoreViewIds[playerIdx],Integer.toString(curScores[playerIdx]));
-	            	Log.v(CurrentMoodWidgetProvider.WIDGETTAG, "Update Score!");
+	            	//Log.v(CurrentMoodWidgetProvider.WIDGETTAG, "Update Score!");
 	            }
 	            else if(requestedAction.equals(UPLOAD_SCORE))
 	            {
@@ -83,15 +121,15 @@ public class CurrentMoodService extends Service {
 	            	//int widgetId= intent.getIntExtra((AppWidgetManager.EXTRA_APPWIDGET_ID,0);
 	            	int widgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, 0);       	
 	            	// update scores, TBD
-	            	Log.v(CurrentMoodWidgetProvider.WIDGETTAG, "Upload score!. widgetId = " + widgetId);
-	            	Log.v(CurrentMoodWidgetProvider.WIDGETTAG, "Upload score!. appPlayerIndexNumber = " + parameter);
+	            	//Log.v(CurrentMoodWidgetProvider.WIDGETTAG, "Upload score!. widgetId = " + widgetId);
+	            	//Log.v(CurrentMoodWidgetProvider.WIDGETTAG, "Upload score!. appPlayerIndexNumber = " + parameter);
 	            	
 	            	Log.v("Service", "curHole = " + gameInstance.curHole);
 	            	for(playerIdx=0; playerIdx<4; playerIdx++)
 	            	{
 	            		gameInstance.players.get(playerIdx).setScore(gameInstance.curHole-1, 
 	            				curScores[playerIdx]+gameInstance.getParStrokes(gameInstance.curHole-1));
-	            		Log.v("Service", "curScores = " + curScores[playerIdx]);
+	            		//Log.v("Service", "curScores = " + curScores[playerIdx]);
 	            	}
 	            	
 	            	gameInstance.processHole(gameInstance.curHole-1, curScores, false);
@@ -108,24 +146,15 @@ public class CurrentMoodService extends Service {
 	                mainActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 	                startActivity(mainActivity);
 	                
+	                refreshView();
 	            	for(playerIdx=0; playerIdx<4; playerIdx++)
 	            	{
-	            		CurrentMoodWidgetProvider.updateTextView(0, CurrentMoodService.scoreViewIds[playerIdx],
-	            				Integer.toString(gameInstance.getAdjustedTotal(playerIdx, gameInstance.curHole-1)));
 	            		curScores[playerIdx]=0;
-	            	}
-	            	
-	            	CurrentMoodWidgetProvider.updateTextView(0, R.id.teamA_Score,
-	            				Integer.toString(gameInstance.teams.get(0).getNumOfWins()));
-	            	CurrentMoodWidgetProvider.updateTextView(0, R.id.teamB_Score,
-            				Integer.toString(gameInstance.teams.get(1).getNumOfWins()));
-	            	CurrentMoodWidgetProvider.updateTextView(0, R.id.holeNumberView,
-            				Integer.toString(gameInstance.curHole));
-	            	if(gameInstance.getHandiHole(gameInstance.curHole-1)==true)
-	    		    {
-	            		CurrentMoodWidgetProvider.updateTextColor(0, R.id.holeNumberView, Color.parseColor("#FF0000"));
-	    		    }
-	            	
+	            	}	            	
+	            }
+	            else if(requestedAction.equals(REFRESH_GAME_STATUS))
+	            {
+	            	refreshView();
 	            }
     		}
         }

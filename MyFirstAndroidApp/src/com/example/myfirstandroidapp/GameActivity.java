@@ -1,5 +1,6 @@
 package com.example.myfirstandroidapp;
 import android.app.Activity;
+import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -282,9 +283,23 @@ public class GameActivity extends Activity {
 			tempLog = gameInstance.holeLogs.get(holeNum-1);
 			if(tempLog.isHoleProcessed()==true) 
 			{
-				tempLog.cancelHole();
-					
-				if(tempLog.isDouble()==true) gameInstance.numCarriedHoles--;
+				int lastPlayedHole = gameInstance.curHole - 1;
+				saveGameData();
+				gameInstance.resetGame(false);
+				this.restoreGameData(lastPlayedHole);
+				this.refreshGameStatus();
+				
+				if(selectedHoleNum<18)
+			    {
+			    	holeEditText.setCurrentItem(selectedHoleNum-1);
+			    
+			    	holeEditText.setVisibility(View.INVISIBLE);
+			    	holeEditText.setVisibility(View.VISIBLE);
+			    }
+				return;
+				
+				//tempLog.cancelHole();
+				//if(tempLog.isDouble()==true) gameInstance.numCarriedHoles--;
 			} 
 			else
 			{
@@ -431,11 +446,18 @@ public class GameActivity extends Activity {
 	    	holeEditText.setVisibility(View.VISIBLE);
 	    }
 	    
-	    Log.v("GameActivity", "selectedHoleNum" + selectedHoleNum);
+	    Log.v("GameActivity", "selectedHoleNum = " + selectedHoleNum);
 	    
 	    saveGameData();
 	    
 	    updateHoleInformation(selectedHoleNum-1);
+	    
+	    Log.v("GameActivity", "before starting service: curHole = " + gameInstance.curHole);
+	    
+	    Intent refreshWidget = new Intent(getApplicationContext(), CurrentMoodService.class);
+	    refreshWidget.setAction(CurrentMoodService.REFRESH_GAME_STATUS);
+	    	    
+	    startService(refreshWidget);
 	}
 	
 	
@@ -509,6 +531,8 @@ private  void refreshGameStatus() {
 	    
 	    
 	    updateHoleInformation(holeNum+1);
+	    
+	    
 	}
 
 private void registerWheelView(int wheelViewId, String[] initString, int totalItems)
@@ -615,7 +639,6 @@ private void restoreGameData(int lastPlayedHole)
 	
 	gameInstance.curHole = lastPlayedHole+1;
 	selectedHoleNum = lastPlayedHole+1;
-	
 }
 
 private void processHole(int holeIdx, int scores[])
