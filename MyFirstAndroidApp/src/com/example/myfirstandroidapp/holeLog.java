@@ -40,8 +40,15 @@ public class holeLog {
 		bDouble = bDouble_;	
 	}
 	
+	public void updateHoleLog(player winner, boolean bDouble_) {
+		bUpdatedOnce = true;
+		individualSkinsWinner = winner;
+	}
+	
 	team winner;
 	team loser;
+	
+	player individualSkinsWinner;
 	
 	boolean bDouble;
 	boolean bUpdatedOnce;

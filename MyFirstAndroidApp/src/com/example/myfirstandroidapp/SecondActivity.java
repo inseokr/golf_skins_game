@@ -287,6 +287,8 @@ public class SecondActivity extends Activity {
 		int handiTeamIdx = tempGame.getHandiTeam();
 		int teamA_score,teamB_score;
 		
+		if(tempGame.getGameMode()==skinsGameInstance.TEAM_SKINS)
+		{
 		try
 		{
 			boolean bIsNextHandiHole = tempGame.getHandiHole(holeNum);
@@ -354,11 +356,11 @@ public class SecondActivity extends Activity {
 			{
 				teamA_score = (tempGame.players.get(0).getScore(holeNum-1) + 1) * 
 			                  tempGame.players.get(1).getScore(holeNum-1);
-			} else
+			} 
+			else
 			{
 				teamA_score = tempGame.players.get(0).getScore(holeNum-1) * 
 		                      (tempGame.players.get(1).getScore(holeNum-1) + 1);
-
 				
 			}
 		} 
@@ -401,13 +403,45 @@ public class SecondActivity extends Activity {
 			tempGame.numCarriedHoles++;
 			tempLog.tied();
 		}
-		
-		
+
 		// Update team status
 		final EditText tempATeamScore = (EditText)findViewById(R.id.teamAScoreEdit);
 		tempATeamScore.setText(Integer.toString(tempGame.teams.get(0).getNumOfWins()));
 	    final EditText tempBTeamScore = (EditText)findViewById(R.id.teamBScoreEdit);
 	    tempBTeamScore.setText(Integer.toString(tempGame.teams.get(1).getNumOfWins()));
+		
+		}
+		// INDIVIDUAL SKINS
+		else
+		{
+			int lowestScoreIdx = 0;
+			boolean tied = false;
+			// pick the lowest score
+			for(int playerIdx = 1; tempGame.getNumOfPlayers() < 4; playerIdx++)
+			{
+				if(tempGame.players.get(playerIdx).getScore(holeNum-1) < tempGame.players.get(lowestScoreIdx).getScore(holeNum-1))
+				{
+					lowestScoreIdx = playerIdx;
+					tied = false;
+				}
+				else if(tempGame.players.get(playerIdx).getScore(holeNum-1) == tempGame.players.get(lowestScoreIdx).getScore(holeNum-1))
+				{
+					tied = true;
+				} 
+			}
+			
+			if(tied==true)
+			{
+				tempGame.numCarriedHoles++;
+				tempLog.tied();
+			} 
+			else
+			{
+				tempGame.players.get(lowestScoreIdx).win(5);
+				tempLog.updateHoleLog(tempGame.players.get(lowestScoreIdx),(tempGame.numCarriedHoles>0) ?  true: false);
+			}
+			
+		}
 		
 		// update player labels
 		ListIterator <player>iterator = tempGame.players.listIterator();

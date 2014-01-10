@@ -9,9 +9,18 @@ public class player {
 		name = name_;
 		purse = new balance(balance_);
 		scores = new int[18];
+		numOfWins = 0;
 	}
 	
-	public void win(int money){purse.deposit(money);}
+	public void reset()
+	{
+		numOfWins = 0;
+		for(int holeIdx=0; holeIdx<18; holeIdx++) scores[holeIdx] = 0;
+		purse.reset();
+		
+	}
+	
+	public void win(int money){numOfWins++; purse.deposit(money);}
 	public void lose(int money){purse.withdraw(money);}
 	
 	public int getBalance(){ return purse.getBalance();}
@@ -50,7 +59,15 @@ public class player {
 		
 	}
 	
+	public int getNumOfWins()
+	{
+		return numOfWins;
+	}
+	
+	
+
 	String name;
+	int numOfWins;
 	balance purse;
 	int[] scores;
 }

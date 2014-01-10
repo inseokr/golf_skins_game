@@ -10,6 +10,7 @@
     tools:context=".MainActivity" >
     
 <RelativeLayout
+    android:id="@+id/activity_main_group"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/layout_bg"
@@ -18,22 +19,10 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin" >
 
-    <TextView
-        android:id="@+id/teamA_view1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="Team A"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@android:color/white" />
-
     <kankan.wheel.widget.WheelView
         android:id="@+id/teamA_player1"
         android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:layout_alignLeft="@+id/teamA_view1"
-        android:layout_below="@+id/teamA_view1" />
+        android:layout_height="60dp" />
 
     <kankan.wheel.widget.WheelView
         android:id="@+id/teamA_player2"
@@ -43,30 +32,22 @@
         android:layout_below="@+id/teamA_player1"
         android:layout_marginTop="5dp" />
 
-    <TextView
-        android:id="@+id/teamB_view1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/teamA_player2"
-        android:layout_below="@+id/teamA_player2"
-        android:layout_marginTop="21dp"
-        android:text="Team B"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@android:color/white" />
-
     <kankan.wheel.widget.WheelView
         android:id="@+id/teamB_player1"
         android:layout_width="200dp"
         android:layout_height="60dp"
-        android:layout_alignLeft="@+id/teamB_view1"
-        android:layout_below="@+id/teamB_view1" />
+        android:layout_alignLeft="@+id/teamA_player2"
+        android:layout_below="@+id/teamA_player2" 
+        android:layout_marginTop="5dp" />
 
     <kankan.wheel.widget.WheelView
         android:id="@+id/teamB_player2"
         android:layout_width="200dp"
         android:layout_height="60dp"
         android:layout_alignLeft="@+id/teamB_player1"
-        android:layout_below="@+id/teamB_player1" />
+        android:layout_below="@+id/teamB_player1" 
+        android:layout_marginTop="5dp"
+         />
 
     <Button
         android:id="@+id/shuffle"
@@ -90,8 +71,17 @@
         android:layout_marginTop="10dp"
         android:text="Handi" />
     
-    
-    
+        <Button
+        android:id="@+id/CourseSelection"
+        style="@style/btnStyleBeige"
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:layout_alignLeft="@+id/handi"
+        android:layout_below="@+id/handi"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:text="Course" />
+        
     <RadioGroup 
         android:id="@+id/handTeam"
         android:layout_width="wrap_content"
@@ -106,7 +96,7 @@
             android:layout_width="wrap_content"
         	android:layout_height="wrap_content"
         	android:text="Team Skins" 
-        	android:checked="true" 
+        	android:checked="false" 
         	android:layout_marginLeft="5dp"
         	android:textColor="@android:color/white"/>
         <RadioButton
@@ -114,7 +104,7 @@
             android:layout_width="wrap_content"
         	android:layout_height="wrap_content"
         	android:text="Individual Skins" 
-        	android:checked="false" 
+        	android:checked="true" 
         	android:layout_marginLeft="5dp"
         	android:textColor="@android:color/white"/>    
     </RadioGroup>
@@ -130,26 +120,6 @@
         android:text="Skins Type"
         android:textColor="#FFFFFF"
         android:textAppearance="?android:attr/textAppearanceMedium" />
-
-	<kankan.wheel.widget.WheelView
-        android:id="@+id/numberOfPlayers"
-        android:layout_width="50dp"
-        android:layout_height="30dp"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_alignTop="@+id/handTeam"
-        android:layout_marginLeft="18dp" />
-
-	<TextView
-        android:id="@+id/textView2"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView1"
-        android:layout_alignBottom="@+id/textView1"
-        android:layout_alignRight="@+id/handi"
-        android:gravity="center_horizontal"
-        android:text="Players"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#FFFFFF" />
 
     <Button
         android:id="@+id/RestoreGameData"
@@ -171,16 +141,25 @@
         android:layout_alignTop="@+id/RestoreGameData"
         android:text="Start New Game" />
 
-    <Button
-        android:id="@+id/CourseSelection"
-        style="@style/btnStyleBeige"
-        android:layout_width="50dp"
-        android:layout_height="30dp"
-        android:layout_alignLeft="@+id/handi"
-        android:layout_below="@+id/handi"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="10dp"
-        android:text="Course" />
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView1"
+        android:layout_alignBottom="@+id/textView1"
+        android:layout_alignRight="@+id/handi"
+        android:gravity="center_horizontal"
+        android:text="Players"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#FFFFFF" />
+
+    <kankan.wheel.widget.WheelView
+        android:id="@+id/numberOfPlayers"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_alignTop="@+id/handTeam"
+        android:layout_marginLeft="18dp" />
 
 </RelativeLayout>
 

@@ -329,8 +329,8 @@
         </TableRow>
     </TableLayout>
 
-    <TextView
-        android:id="@+id/textView4"
+    <Button
+        android:id="@+id/holeViewButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/tableLayout2"
@@ -338,13 +338,14 @@
         android:layout_marginTop="30dp"
         android:text="Hole"
         android:textAppearance="?android:attr/textAppearanceLarge"
+        android:background="#000000"
         android:textColor="@android:color/white" />
     
     <kankan.wheel.widget.WheelView android:id="@+id/HoleSelection"
         android:layout_height="70dp"
         android:layout_width="70dp"
         android:layout_gravity="center_vertical"
-        android:layout_toRightOf="@+id/textView4"
+        android:layout_toRightOf="@+id/holeViewButton"
         android:layout_marginLeft="10dp"
         android:layout_below="@+id/tableLayout2"
         android:layout_marginTop="10dp"      
@@ -356,8 +357,8 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/tableLayout2"
         android:layout_toLeftOf="@+id/tableLayout2"
-        android:text="Carried holes"
-        android:layout_alignParentRight="true"
+        android:text="Carried Holes"
+        android:layout_alignRight="@+id/tableLayout1"
         android:background="@android:color/black"
         android:textColor="@android:color/white"
         android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -367,7 +368,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView5"
-        android:layout_alignParentRight="true"
+        android:layout_alignRight="@+id/tableLayout1"
         
         android:text="0"
         android:background="@android:color/black"
@@ -382,7 +383,7 @@
         android:layout_height="60dp"
         android:layout_alignTop="@+id/HoleSelection"
         android:layout_toLeftOf="@+id/HoleSelection"
-        android:layout_alignParentRight="true"
+        android:layout_alignRight="@+id/tableLayout1"
         android:text="Update" />
 
     <ImageButton
@@ -401,7 +402,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/goHomeButton"
-        android:layout_alignLeft="@+id/textView4"
+        android:layout_alignLeft="@+id/holeViewButton"
         android:text="Par"
         android:background="@android:color/black"
         android:textColor="#0000FF"
@@ -430,17 +431,40 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#0000FF" />
 
-    <TextView
+    <Button
         android:id="@+id/yardView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/holeTypeView"
-        android:layout_alignBottom="@+id/holeTypeView"
+        android:layout_alignBaseline="@+id/textView7"
+        android:layout_alignBottom="@+id/textView7"
+        android:layout_alignLeft="@+id/HoleSelection"
         android:layout_toLeftOf="@+id/textView7"
-        android:layout_marginRight="10dp"
+        android:background="#000000"
         android:text="380"
-        android:textColor="#FF0000"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#FF0000" />
+
+    <TextView
+        android:id="@+id/TrackDistance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TextView01"
+        android:layout_alignRight="@+id/tableLayout1"
+        android:text="0"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/TextView01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/tableLayout1"
+        android:layout_below="@+id/carriedHoles"
+        android:layout_marginTop="14dp"
+        android:background="@android:color/black"
+        android:text="Last Hit"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/white" />
 
 </RelativeLayout>
 </ScrollView>

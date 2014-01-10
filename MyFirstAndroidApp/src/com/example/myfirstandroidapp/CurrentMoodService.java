@@ -29,6 +29,7 @@ public class CurrentMoodService extends Service {
 	private static skinsGameInstance gameInstance;
 	private static int widgetId=0;
 	public static int scoreViewIds[]={R.id.player1_score, R.id.player2_score, R.id.player3_score, R.id.player4_score};
+	public static int winViewIds[]={R.id.SkinsWinPlayer1, R.id.SkinsWinPlayer2, R.id.SkinsWinPlayer3, R.id.SkinsWinPlayer4};
 	public static int playerViewIds[]={R.id.teamA_player1, R.id.teamA_player2, R.id.teamB_player1, R.id.teamB_player2};
 	private static int curScores[]={-1,-1,-1,-1};
 	
@@ -68,12 +69,25 @@ public class CurrentMoodService extends Service {
 		
 		Log.v("CurrentModdService", "refreshView: curHole = " + gameInstance.curHole);
 		
-		for(int playerIdx=0; playerIdx<4; playerIdx++)
+		for(int playerIdx=0; playerIdx<gameInstance.getNumOfPlayers(); playerIdx++)
     	{
 			//Log.v("CurrentModdService", "playerIdx = " + playerIdx);
 			
-    		CurrentMoodWidgetProvider.updateTextView(0, CurrentMoodService.scoreViewIds[playerIdx],
-    				Integer.toString(gameInstance.getAdjustedTotal(playerIdx, gameInstance.curHole-1)));
+			if(playerIdx<gameInstance.getNumOfPlayers())
+			{
+				CurrentMoodWidgetProvider.updateTextView(0, CurrentMoodService.scoreViewIds[playerIdx],
+						Integer.toString(gameInstance.getAdjustedTotal(playerIdx, gameInstance.curHole-1)));
+				CurrentMoodWidgetProvider.updateTextView(0, CurrentMoodService.winViewIds[playerIdx],
+						Integer.toString(gameInstance.players.get(playerIdx).getNumOfWins()));
+			
+			}
+			
+			else
+			{
+				CurrentMoodWidgetProvider.setViewVisibility(0,CurrentMoodService.playerViewIds[playerIdx], View.INVISIBLE);
+				CurrentMoodWidgetProvider.setViewVisibility(0,CurrentMoodService.scoreViewIds[playerIdx], View.INVISIBLE);
+				CurrentMoodWidgetProvider.setViewVisibility(0,CurrentMoodService.winViewIds[playerIdx], View.INVISIBLE);
+			}
     	}
     	
     	CurrentMoodWidgetProvider.updateTextView(0, R.id.teamA_Score,
@@ -88,12 +102,21 @@ public class CurrentMoodService extends Service {
     	
     	if(gameInstance.getHandiHole(gameInstance.curHole-1)==true)
 	    {
-    		CurrentMoodWidgetProvider.updateTextColor(0, R.id.holeNumberView, Color.parseColor("#FF0000"));
+    		CurrentMoodWidgetProvider.updateTextColor(0, R.id.textView2, Color.parseColor("#FF0000"));
 	    } 
     	else
 	    {
-    		CurrentMoodWidgetProvider.updateTextColor(0, R.id.holeNumberView, Color.parseColor("#FFFFFF"));
+    		CurrentMoodWidgetProvider.updateTextColor(0, R.id.textView2, Color.parseColor("#FFFFFF"));
 	    }
+    	
+    	CurrentMoodWidgetProvider.updateTextView(0, R.id.GetDistanceToGreen, 
+				Integer.toString(gameInstance.getYardages(gameInstance.curHole-1)));
+
+    	CurrentMoodWidgetProvider.updateTextView(0, R.id.NumOfCarriedHoles, 
+    			Integer.toString(gameInstance.numCarriedHoles));
+    	
+    	CurrentMoodWidgetProvider.updateTextView(0, R.id.ParTypeView, 
+    			"Par " + Integer.toString(gameInstance.getParStrokes()));
 	}
 	
 	private void manageGame(Intent intent) {
@@ -112,29 +135,43 @@ public class CurrentMoodService extends Service {
 	            	//Log.v(CurrentMoodWidgetProvider.WIDGETTAG, "curScores = " + curScores[playerIdx]);
 	            	
 	            	CurrentMoodWidgetProvider.updateTextView(0, scoreViewIds[playerIdx],Integer.toString(curScores[playerIdx]));
+	            	CurrentMoodWidgetProvider.updateTextColor(0, scoreViewIds[playerIdx], Color.parseColor("#FFFFFF"));
 	            	//Log.v(CurrentMoodWidgetProvider.WIDGETTAG, "Update Score!");
 	            }
 	            else if(requestedAction.equals(UPLOAD_SCORE))
 	            {
-	            	int parameter = intent.getIntExtra("appPlayerIndexNumber", 0);
-	            	
-	            	//int widgetId= intent.getIntExtra((AppWidgetManager.EXTRA_APPWIDGET_ID,0);
-	            	int widgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, 0);       	
-	            	// update scores, TBD
-	            	//Log.v(CurrentMoodWidgetProvider.WIDGETTAG, "Upload score!. widgetId = " + widgetId);
-	            	//Log.v(CurrentMoodWidgetProvider.WIDGETTAG, "Upload score!. appPlayerIndexNumber = " + parameter);
 	            	
 	            	Log.v("Service", "curHole = " + gameInstance.curHole);
-	            	for(playerIdx=0; playerIdx<4; playerIdx++)
+	            	try
 	            	{
-	            		gameInstance.players.get(playerIdx).setScore(gameInstance.curHole-1, 
-	            				curScores[playerIdx]+gameInstance.getParStrokes(gameInstance.curHole-1));
-	            		//Log.v("Service", "curScores = " + curScores[playerIdx]);
+	            		for(playerIdx=0; playerIdx<gameInstance.getNumOfPlayers(); playerIdx++)
+	            		{
+	            			gameInstance.players.get(playerIdx).setScore(gameInstance.curHole-1, 
+	            					curScores[playerIdx]+gameInstance.getParStrokes(gameInstance.curHole-1));
+	            		
+	            			CurrentMoodWidgetProvider.updateTextColor(0, scoreViewIds[playerIdx], Color.parseColor("#FF00FF"));
+	            			//Log.v("Service", "curScores = " + curScores[playerIdx]);
+	            		}
 	            	}
-	            	
+	            	catch(ArrayIndexOutOfBoundsException e)
+	            	{
+	            		Log.v("CurrnentMoodService", "Failed to set scores");
+	            		return;
+	            	}
 	            	gameInstance.processHole(gameInstance.curHole-1, curScores, false);
 	            	
-	            	gameInstance.curHole = gameInstance.curHole + 1;
+	            	if(gameInstance.curHole<18)
+	            		gameInstance.curHole = gameInstance.curHole + 1;
+	            	
+	            	CurrentMoodWidgetProvider.updateTextView(0, R.id.GetDistanceToGreen, 
+	            					Integer.toString(gameInstance.getYardages(gameInstance.curHole-1)));
+	            	
+	            	CurrentMoodWidgetProvider.updateTextView(0, R.id.NumOfCarriedHoles, 
+        					Integer.toString(gameInstance.numCarriedHoles));
+	            	
+	            	CurrentMoodWidgetProvider.updateTextView(0, R.id.ParTypeView, 
+	            			"Par " + Integer.toString(gameInstance.getParStrokes()));
+        	
 	            	gameInstance.saveGameData(getApplicationContext());
 	            	
 	            	
@@ -147,7 +184,7 @@ public class CurrentMoodService extends Service {
 	                startActivity(mainActivity);
 	                
 	                refreshView();
-	            	for(playerIdx=0; playerIdx<4; playerIdx++)
+	            	for(playerIdx=0; playerIdx<gameInstance.getNumOfPlayers(); playerIdx++)
 	            	{
 	            		curScores[playerIdx]=0;
 	            	}	            	

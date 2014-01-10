@@ -2,6 +2,9 @@ package com.example.myfirstandroidapp;
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -27,7 +30,7 @@ import kankan.wheel.widget.adapters.ArrayWheelAdapter;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-public class GameActivity extends Activity {
+public class GameActivity extends Activity implements LocationListener {
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
 	
@@ -73,61 +76,33 @@ public class GameActivity extends Activity {
     	
         return;
     }
+    
+    for(int playerIdx=0; playerIdx < 4; playerIdx++)
+    {
+    	Button tempPlayerName = (Button) findViewById(playerViewIds[playerIdx]);
+    	
+    	if(playerIdx<gameInstance.getNumOfPlayers())
+    	{
+    		tempPlayerName.setText(gameInstance.players.get(playerIdx).getName());
+       
+    		tempPlayerName.setOnClickListener(new View.OnClickListener() {
+    			public void onClick(View v) {
+    				Intent statusActivity = new Intent(getApplicationContext(), StatusActivity.class);
+    				Bundle bnd = new Bundle();
+    				bnd.putString("playerIdx", Integer.toString(getPlayerViewIdx(v.getId())));
+    				statusActivity.putExtras(bnd);
+    				startActivity(statusActivity);                
+    			}
+    		});
+    	}
+    	else
+    	{
+    		tempPlayerName.setText("EMPTY");
+    	}
 
-    Button tempPlayerName = (Button) findViewById(R.id.player1View);
-    tempPlayerName.setText(gameInstance.players.get(0).getName());
+    }
 
-   
-    tempPlayerName.setOnClickListener(new View.OnClickListener() {
-        public void onClick(View v) {
-        	Intent statusActivity = new Intent(getApplicationContext(), StatusActivity.class);
-            Bundle bnd = new Bundle();
-            bnd.putString("playerIdx", "0");
-            statusActivity.putExtras(bnd);
-        	startActivity(statusActivity);                
-        }
-    });
-
-    tempPlayerName = (Button) findViewById(R.id.player2View);
-    tempPlayerName.setText(gameInstance.players.get(1).getName());
-    
-    tempPlayerName.setOnClickListener(new View.OnClickListener() {
-        public void onClick(View v) {
-        	Intent statusActivity = new Intent(getApplicationContext(), StatusActivity.class);
-            Bundle bnd = new Bundle();
-            bnd.putString("playerIdx", "1");
-            statusActivity.putExtras(bnd);
-        	startActivity(statusActivity);                
-        }
-    });
-   
-    tempPlayerName = (Button) findViewById(R.id.player3View);
-    tempPlayerName.setText(gameInstance.players.get(2).getName());
-    
-    
-    tempPlayerName.setOnClickListener(new View.OnClickListener() {
-        public void onClick(View v) {
-        	Intent statusActivity = new Intent(getApplicationContext(), StatusActivity.class);
-            Bundle bnd = new Bundle();
-            bnd.putString("playerIdx", "2");
-            statusActivity.putExtras(bnd);
-        	startActivity(statusActivity);                
-        }
-    });
-     
-    tempPlayerName = (Button) findViewById(R.id.player4View);
-    tempPlayerName.setText(gameInstance.players.get(3).getName());
-    
-    tempPlayerName.setOnClickListener(new View.OnClickListener() {
-        public void onClick(View v) {
-        	Intent statusActivity = new Intent(getApplicationContext(), StatusActivity.class);
-            Bundle bnd = new Bundle();
-            bnd.putString("playerIdx", "3");
-            statusActivity.putExtras(bnd);
-        	startActivity(statusActivity);                
-        }
-    });
-    
+        
     // It's the way how to refresh the view?? Unbelievable!!
     TableLayout tableLayout = (TableLayout) findViewById(R.id.tableLayout1);
     tableLayout.setVisibility(View.INVISIBLE);
@@ -152,7 +127,32 @@ public class GameActivity extends Activity {
         };
     });
 	
+	final Button holeButton = (Button) findViewById(R.id.holeViewButton);
+	holeButton.setOnClickListener(new View.OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			final WheelView holeSelection = (WheelView) findViewById(R.id.HoleSelection);
+			int holeNum = gameInstance.curHole-1;		    
+	    	holeSelection.setCurrentItem(holeNum<0? 0: holeNum);
+	    	holeSelection.setVisibility(View.INVISIBLE);
+	    	holeSelection.setVisibility(View.VISIBLE);
+		}
+	});
 	
+
+	final Button yardViewButton = (Button) findViewById(R.id.yardView);
+	yardViewButton.setOnClickListener(new View.OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			updateLocation();
+			
+		}
+	});
+
 	final WheelView holeSelection = (WheelView) findViewById(R.id.HoleSelection);
     
     holeSelection.setVisibleItems(18);
@@ -185,11 +185,15 @@ public class GameActivity extends Activity {
 		    selectedHoleNum = newValue + 1;
 		    skinsGameInstance gameInstance = skinsGame.getInstance().getGame();
 		    holeLog tempLog = gameInstance.holeLogs.get(newValue);
+		    //Log.v("GameActivity", "holeSelection onChanged");
 			if(tempLog.isHoleProcessed()==true)
 			{
+				//Log.v("GameActivity", "This hole is already processed, refreshing player information");
 				refreshPlayerInfo(selectedHoleNum);
 			}
 			else {
+
+				//Log.v("GameActivity", "A new hole, just show last hole information");
 				if(gameInstance.curHole>1)
 					refreshPlayerInfo(gameInstance.curHole-1);
 			}
@@ -202,20 +206,24 @@ public class GameActivity extends Activity {
 	});
     
     
-	mHandler.postDelayed(new Runnable() {
-		public void run() {
-			Log.v("MainActivity", "Finally I'm awake");
-			keepMeAwake();
-       }
-	}, 3000);
+	//mHandler.postDelayed(new Runnable() {
+	//	public void run() {
+	//		Log.v("MainActivity", "Finally I'm awake");
+	//		keepMeAwake();
+    //   }
+	//}, 3000);
 	
 	updateHoleInformation(gameInstance.curHole-1);
+	
+	
+	locationManager = (LocationManager) getSystemService(this.getApplicationContext().LOCATION_SERVICE);
+
 	}
 	
 	public void keepMeAwake(){
 		mHandler.postDelayed(new Runnable() {
 			public void run() {
-				Log.v("MainActivity", "Finally I'm awake");
+				//Log.v("MainActivity", "Finally I'm awake");
 				keepMeAwake();
            }
 		}, 1000*3600);
@@ -226,10 +234,15 @@ public class GameActivity extends Activity {
 		// update score and totals
 		TextView playerTotalScoreView;
 		WheelView playerScoreView;
-		for(int playerIdx=0; playerIdx < 4; playerIdx++)
+		for(int playerIdx=0; playerIdx < gameInstance.getNumOfPlayers(); playerIdx++)
 		{
 			playerTotalScoreView = (TextView) findViewById(playerTotalScoreViews[playerIdx]);
-			playerTotalScoreView.setText(Integer.toString(gameInstance.getAdjustedTotal(playerIdx, holeNum)));
+			
+			if(gameInstance.getGameMode()==skinsGameInstance.TEAM_SKINS)
+				playerTotalScoreView.setText(Integer.toString(gameInstance.getAdjustedTotal(playerIdx, holeNum)));	
+			else
+				playerTotalScoreView.setText(Integer.toString(gameInstance.players.get(playerIdx).getNumOfWins()));
+			
 			playerTotalScoreView.setVisibility(View.INVISIBLE);
 			playerTotalScoreView.setVisibility(View.VISIBLE);
 		
@@ -271,7 +284,7 @@ public class GameActivity extends Activity {
 		
 		
 		// update scores
-		for(int playerIdx=0;playerIdx<4;playerIdx++){
+		for(int playerIdx=0;playerIdx<gameInstance.getNumOfPlayers();playerIdx++){
 			curScores[playerIdx] = getAdjustedScore(curSelectedScoreItems[playerIdx], holeNum -1);
 			gameInstance.players.get(playerIdx).setScore(holeNum-1,curScores[playerIdx]);
 		}
@@ -284,7 +297,7 @@ public class GameActivity extends Activity {
 			if(tempLog.isHoleProcessed()==true) 
 			{
 				int lastPlayedHole = gameInstance.curHole - 1;
-				saveGameData();
+				gameInstance.saveGameData(this.getApplicationContext());
 				gameInstance.resetGame(false);
 				this.restoreGameData(lastPlayedHole);
 				this.refreshGameStatus();
@@ -314,6 +327,9 @@ public class GameActivity extends Activity {
 			return; 
 		}
 		
+		
+		if(gameInstance.getGameMode()==skinsGameInstance.TEAM_SKINS)
+		{
 		boolean bIsHandiHole = gameInstance.getHandiHole(holeNum-1);
 		int handiTeamIdx = gameInstance.getHandiTeam();
 		int teamA_score,teamB_score;
@@ -327,7 +343,7 @@ public class GameActivity extends Activity {
 			Log.v("GameActivity","hole number can't exceed 18");
 		}
 				
-		Log.v("GameActivity", "handiTeamIdx = " + handiTeamIdx);
+		//Log.v("GameActivity", "handiTeamIdx = " + handiTeamIdx);
 		
 		if(bIsHandiHole && handiTeamIdx==0)
 		{
@@ -370,7 +386,7 @@ public class GameActivity extends Activity {
 		}
 		
 		
-		Log.v("GameActivity", "teamA_score = " + teamA_score + ", teamB_score =" + teamB_score);
+		//Log.v("GameActivity", "teamA_score = " + teamA_score + ", teamB_score =" + teamB_score);
 		
 		if(teamA_score < teamB_score){ // team A win
 			team tempTeamWinner = gameInstance.teams.get(0);
@@ -402,13 +418,46 @@ public class GameActivity extends Activity {
 			gameInstance.numCarriedHoles++;
 			tempLog.tied();
 		}
-		
-		
 		// Update team status
-		final EditText tempATeamScore = (EditText)findViewById(R.id.teamAScoreEdit);
-		tempATeamScore.setText(Integer.toString(gameInstance.teams.get(0).getNumOfWins()));
-	    final EditText tempBTeamScore = (EditText)findViewById(R.id.teamBScoreEdit);
-	    tempBTeamScore.setText(Integer.toString(gameInstance.teams.get(1).getNumOfWins()));
+				final EditText tempATeamScore = (EditText)findViewById(R.id.teamAScoreEdit);
+				tempATeamScore.setText(Integer.toString(gameInstance.teams.get(0).getNumOfWins()));
+			    final EditText tempBTeamScore = (EditText)findViewById(R.id.teamBScoreEdit);
+			    tempBTeamScore.setText(Integer.toString(gameInstance.teams.get(1).getNumOfWins()));
+		}
+		// INDIVIDUAL SKINS
+		else
+		{
+			int lowestScoreIdx = 0;
+			boolean tied = false;
+			for(int playerIdx = 1; playerIdx < gameInstance.getNumOfPlayers(); playerIdx++)
+			{
+				if(curScores[playerIdx] < curScores[lowestScoreIdx])
+				{
+					lowestScoreIdx = playerIdx;
+					tied = false;
+				}
+				else if(curScores[playerIdx] == curScores[lowestScoreIdx])
+				{
+					tied = true;
+				}
+			}
+					
+			if(tied==true)
+			{
+				gameInstance.numCarriedHoles++;
+				tempLog.tied();
+			} 
+			else
+			{
+				gameInstance.players.get(lowestScoreIdx).win(5);
+				if(gameInstance.numCarriedHoles>0) 
+					gameInstance.players.get(lowestScoreIdx).win(5);
+				tempLog.updateHoleLog(gameInstance.players.get(lowestScoreIdx),(gameInstance.numCarriedHoles>0) ?  true: false);
+				if(gameInstance.numCarriedHoles>0) gameInstance.numCarriedHoles--;	
+			}			
+		}
+		
+		
 		
 		// update player labels
 		ListIterator <player>iterator = gameInstance.players.listIterator();
@@ -419,7 +468,10 @@ public class GameActivity extends Activity {
 		{
 			player currPlayer = iterator.next();
 			playerTotalScoreView = (TextView) findViewById(playerTotalScoreViews[idx]);
-			playerTotalScoreView.setText(Integer.toString(gameInstance.getAdjustedTotal(idx, holeNum)));		
+			if(gameInstance.getGameMode()==skinsGameInstance.TEAM_SKINS)
+				playerTotalScoreView.setText(Integer.toString(gameInstance.getAdjustedTotal(idx, holeNum)));	
+			else
+				playerTotalScoreView.setText(Integer.toString(currPlayer.getNumOfWins()));	
 		//String newStatusInfo = "Hole " + curHole + " is in progress." + "Number of carried holes = " + numCarriedHoles;
 		    idx++;
 		}
@@ -446,13 +498,13 @@ public class GameActivity extends Activity {
 	    	holeEditText.setVisibility(View.VISIBLE);
 	    }
 	    
-	    Log.v("GameActivity", "selectedHoleNum = " + selectedHoleNum);
+	    //Log.v("GameActivity", "selectedHoleNum = " + selectedHoleNum);
 	    
-	    saveGameData();
+	    gameInstance.saveGameData(this.getApplicationContext());
 	    
 	    updateHoleInformation(selectedHoleNum-1);
 	    
-	    Log.v("GameActivity", "before starting service: curHole = " + gameInstance.curHole);
+	    //Log.v("GameActivity", "before starting service: curHole = " + gameInstance.curHole);
 	    
 	    Intent refreshWidget = new Intent(getApplicationContext(), CurrentMoodService.class);
 	    refreshWidget.setAction(CurrentMoodService.REFRESH_GAME_STATUS);
@@ -463,7 +515,7 @@ public class GameActivity extends Activity {
 	
 private  void refreshGameStatus() {
 			
-		Log.v("GameActivity", "refreshGameStatus. holeNum = " + gameInstance.curHole);
+		//Log.v("GameActivity", "refreshGameStatus. holeNum = " + gameInstance.curHole);
 			
 		int holeNum = gameInstance.curHole-1;
 		
@@ -478,7 +530,7 @@ private  void refreshGameStatus() {
 		
 		WheelView tempCurrScoreView;
 		
-		for(int playerIdx=0;playerIdx<4;playerIdx++){
+		for(int playerIdx=0;playerIdx<gameInstance.getNumOfPlayers();playerIdx++){
 			
 			tempCurrScoreView = (WheelView) findViewById(playerCurrScoreViews[playerIdx]);
 			tempCurrScoreView.setCurrentItem( curSelectedScoreItems[playerIdx]);
@@ -509,7 +561,10 @@ private  void refreshGameStatus() {
 		{
 			player currPlayer = iterator.next();
 			playerTotalScoreView = (TextView) findViewById(playerTotalScoreViews[idx]);
-			playerTotalScoreView.setText(Integer.toString(gameInstance.getAdjustedTotal(idx, holeNum)));	
+			if(gameInstance.getGameMode()==skinsGameInstance.TEAM_SKINS)
+				playerTotalScoreView.setText(Integer.toString(gameInstance.getAdjustedTotal(idx, holeNum)));	
+			else
+				playerTotalScoreView.setText(Integer.toString(currPlayer.getNumOfWins()));	
 		//String newStatusInfo = "Hole " + curHole + " is in progress." + "Number of carried holes = " + numCarriedHoles;
 		    idx++;
 		}
@@ -556,6 +611,16 @@ final WheelView tempWheelView = (WheelView) findViewById(wheelViewId);
 	});
 }
 
+private static int getPlayerViewIdx(int view_id)
+{
+	for(int playerIdx=0; playerIdx<gameInstance.getNumOfPlayers(); playerIdx++)
+	{
+		if(playerViewIds[playerIdx] == view_id) return playerIdx;
+	}
+	
+	return 0;
+}
+
 private int getAdjustedScore(int newValue, int holeIdx)
 {
 	int value;
@@ -563,9 +628,9 @@ private int getAdjustedScore(int newValue, int holeIdx)
 	if(gameInstance.getScoreMode()==skinsGameInstance.scoreMode.DIFFERENCE)
 	{
 		value = Integer.parseInt(diffs[newValue]);
-		Log.v("GameActivity", "before adjustment = " + value);
+		//Log.v("GameActivity", "before adjustment = " + value);
 		value = value + gameInstance.getParStrokes(holeIdx);
-		Log.v("GameActivity", "parStrokes = " + gameInstance.getParStrokes(holeIdx));
+		//Log.v("GameActivity", "parStrokes = " + gameInstance.getParStrokes(holeIdx));
 	} 
 	else
 	{
@@ -577,7 +642,7 @@ private int getAdjustedScore(int newValue, int holeIdx)
 
 private int getPlayerIdxByWheelId(WheelView wheel)
 {
-	for(int idx=0; idx<4; idx++)
+	for(int idx=0; idx<gameInstance.getNumOfPlayers(); idx++)
 	{
 		if(wheel.getId()==playerCurrScoreViews[idx]) return idx;
 	}
@@ -585,6 +650,7 @@ private int getPlayerIdxByWheelId(WheelView wheel)
 	return 0;
 }
 
+//obsolete
 private void saveGameData()
 {
 	SharedPreferences  gameDataContainer = getApplicationContext().getSharedPreferences("SKINS_GAME_NAME", 0);
@@ -614,7 +680,7 @@ private void saveGameData()
 	// 2.2 scores
 	for(int holeIdx=0;holeIdx<18;holeIdx++)
 	{
-		for(int playerIdx=0;playerIdx<4;playerIdx++)
+		for(int playerIdx=0;playerIdx<gameInstance.getNumOfPlayers();playerIdx++)
 			editor.putInt(scoreDataVariables[playerIdx][holeIdx], 
 					      gameInstance.players.get(playerIdx).getScore(holeIdx));
 	}
@@ -628,13 +694,17 @@ private void restoreGameData(int lastPlayedHole)
 	SharedPreferences gameData = getApplicationContext().getSharedPreferences("SKINS_GAME_NAME", 0);
 	int playerScores[]={0,0,0,0};
 	
+	
+	gameInstance.setGameMode(gameData.getInt("SkinsType", 0));
+	gameInstance.setNumOfPlayers(gameData.getInt("NumOfPlayers", 4));
+	
 	for(int holeIdx=0; holeIdx<lastPlayedHole; holeIdx++)
 	{
-		for(int playerIdx=0; playerIdx<4; playerIdx++)
+		for(int playerIdx=0; playerIdx<gameInstance.getNumOfPlayers(); playerIdx++)
 		{
 			playerScores[playerIdx] = gameData.getInt(scoreDataVariables[playerIdx][holeIdx], 0);
 		}
-		processHole(holeIdx,playerScores);
+		gameInstance.processHole(holeIdx,playerScores,true);
 	}
 	
 	gameInstance.curHole = lastPlayedHole+1;
@@ -648,9 +718,11 @@ private void processHole(int holeIdx, int scores[])
 	tempLog = gameInstance.holeLogs.get(holeIdx);
 	
 	// update scores
-	for(int playerIdx=0; playerIdx<4; playerIdx++)
+	for(int playerIdx=0; playerIdx<gameInstance.getNumOfPlayers(); playerIdx++)
 		gameInstance.players.get(playerIdx).setScore(holeIdx, scores[playerIdx]);
 
+	if(gameInstance.getGameMode() == skinsGameInstance.TEAM_SKINS)
+	{
 	boolean bIsHandiHole = gameInstance.getHandiHole(holeIdx);
 	int handiTeamIdx = gameInstance.getHandiTeam();
 	int teamA_score,teamB_score;
@@ -698,7 +770,7 @@ private void processHole(int holeIdx, int scores[])
 	}
 			
 			
-	Log.v("GameActivity", "teamA_score = " + teamA_score + ", teamB_score =" + teamB_score);
+	//Log.v("GameActivity", "teamA_score = " + teamA_score + ", teamB_score =" + teamB_score);
 			
 	if(teamA_score < teamB_score){ // team A win
 		team tempTeamWinner = gameInstance.teams.get(0);
@@ -730,6 +802,38 @@ private void processHole(int holeIdx, int scores[])
 		gameInstance.numCarriedHoles++;
 		tempLog.tied();
 	}
+	}
+	else
+	{
+		int lowestScoreIdx = 0;
+		boolean tied = false;
+		for(int playerIdx = 1; playerIdx < gameInstance.getNumOfPlayers(); playerIdx++)
+		{
+			if(curScores[playerIdx] < curScores[lowestScoreIdx])
+			{
+				lowestScoreIdx = playerIdx;
+				tied = false;
+			}
+			else if(curScores[playerIdx] == curScores[lowestScoreIdx])
+			{
+				tied = true;
+			}
+		}
+				
+		if(tied==true)
+		{
+			gameInstance.numCarriedHoles++;
+			tempLog.tied();
+		} 
+		else
+		{
+			gameInstance.players.get(lowestScoreIdx).win(5);
+			if(gameInstance.numCarriedHoles>0) 
+				gameInstance.players.get(lowestScoreIdx).win(5);
+			tempLog.updateHoleLog(gameInstance.players.get(lowestScoreIdx),(gameInstance.numCarriedHoles>0) ?  true: false);
+			if(gameInstance.numCarriedHoles>0) gameInstance.numCarriedHoles--;	
+		}	
+	}
 }
 
 private void updateHoleInformation(int holeIdx)
@@ -751,19 +855,38 @@ private void updateHoleInformation(int holeIdx)
 
 private void adjustColorsBasedOnHandiInformation(boolean bIsHandiHole){
 
-	TextView holeView = (TextView) findViewById(R.id.textView4);
+	Button holeViewButton = (Button) findViewById(R.id.holeViewButton);
 	
 	if(bIsHandiHole==true)
 	{	
-		holeView.setTextColor(Color.parseColor("#00ff00"));
+		holeViewButton.setTextColor(Color.parseColor("#00ff00"));
 		
 	} else
 	{
-		holeView.setTextColor(Color.parseColor("#ffffff"));
+		holeViewButton.setTextColor(Color.parseColor("#ffffff"));
 	}
 	
-	holeView.setVisibility(View.INVISIBLE);
-	holeView.setVisibility(View.VISIBLE);
+	holeViewButton.setVisibility(View.INVISIBLE);
+	holeViewButton.setVisibility(View.VISIBLE);
+}
+
+
+private void updateLocation()
+{
+		     
+	// CAL METHOD requestLocationUpdates           
+	// Parameters :
+	//   First(provider)    :  the name of the provider with which to register
+	//   Second(minTime)    :  the minimum time interval for notifications,
+	//                         in milliseconds. This field is only used as a hint
+	//                         to conserve power, and actual time between location
+	//                         updates may be greater or lesser than this value.
+	//   Third(minDistance) :  the minimum distance interval for notifications, in meters
+	//   Fourth(listener)   :  a {#link LocationListener} whose onLocationChanged(Location)
+	//                         method will be called for each location update    
+	locationManager.requestLocationUpdates( LocationManager.GPS_PROVIDER,
+			3000,   // 3 sec
+	        10, this); 
 }
 
 protected void onStart() {
@@ -815,12 +938,15 @@ private void resetGameActivity(){
     }
 }
 
+    static LocationManager locationManager;
+    
 	static int selectedHoleNum =1;
 	
 	static String strokes[]={"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
 	static String diffs[]={"-2", "-1", "0", "1", "2", "3", "4", "5"};
 	static int curScores[]={0,0,0,0};
 	static int curSelectedScoreItems[]={3,3,3,3};
+	static int playerViewIds[] = {R.id.player1View, R.id.player2View, R.id.player3View, R.id.player4View };
 	static int playerTotalScoreViews[]={R.id.player1TotalView, R.id.player2TotalView,
 										R.id.player3TotalView, R.id.player4TotalView
 	};
@@ -859,5 +985,83 @@ private void resetGameActivity(){
 	};
 	private Handler mHandler = new Handler();
 	
-	private skinsGameInstance gameInstance;
+	private static skinsGameInstance gameInstance;
+    static private Location lastLocation = null;
+    
+	@Override
+	public void onLocationChanged(Location location) {
+		// TODO Auto-generated method stub
+		Location greenLocation = gameInstance.getLocationOfGreen();
+        String distance_str = Integer.toString((int)distance(location.getLatitude(), location.getLongitude(), 
+				greenLocation.getLatitude(), greenLocation.getLongitude()));
+        final Button yardView = (Button) findViewById(R.id.yardView);
+        yardView.setText(distance_str);
+        yardView.setVisibility(View.INVISIBLE);
+        yardView.setVisibility(View.VISIBLE);
+       
+        if(lastLocation!=null)
+        {
+        	// update hit distance
+        	String hit_distance_str = Integer.toString((int)distance(location.getLatitude(), location.getLongitude(), 
+        			lastLocation.getLatitude(), lastLocation.getLongitude()));
+        	
+        	final TextView trackDistanceView = (TextView) findViewById(R.id.TrackDistance);
+        	trackDistanceView.setText(hit_distance_str);
+        	// Display it through Remote View
+        	//CurrentMoodWidgetProvider.updateTextView(0, R.id.TrackLastHit, hit_distance_str);
+        	
+        	lastLocation = location;
+        } 
+        else
+        {
+        	lastLocation = location;
+        }
+        
+        locationManager.removeUpdates(this);
+	}
+
+	@Override
+	public void onProviderDisabled(String provider) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onProviderEnabled(String provider) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+	private static double distance(double lat1, double lon1, double lat2, double lon2) {
+	      double theta = lon1 - lon2;
+	      double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
+	      dist = Math.acos(dist);
+	      dist = rad2deg(dist);
+	      dist = dist * 60 * 1.1515;
+	 
+	      return (dist*1760);
+	    //return (dist);
+	}
+
+	/*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+	/*::  This function converts decimal degrees to radians             :*/
+	/*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+	private static double deg2rad(double deg) {
+		return (deg * Math.PI / 180.0);
+	}
+
+	/*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+	/*::  This function converts radians to decimal degrees             :*/
+	/*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+	private static double rad2deg(double rad) {
+		return (rad * 180.0 / Math.PI);
+	}
+
 }

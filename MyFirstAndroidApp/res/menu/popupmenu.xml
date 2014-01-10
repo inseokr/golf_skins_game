@@ -1,0 +1,14 @@
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android" 
+      >
+  <group android:id="@+id/group_popupmenu">
+      <item android:id="@+id/summitPointe"
+          android:title="Summit Pointe"/>
+      <item android:id="@+id/sunolPalm"
+          android:title="Sunol Palm Course"/>
+      <item android:id="@+id/shoreLine"
+          android:title="Shoreline Golf Link"/>
+      <item android:id="@+id/theRanch"
+          android:title="The Ranch Golf Club"/>
+  </group>
+</menu>

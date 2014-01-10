@@ -6,6 +6,11 @@ public class balance {
 		balance = initBalance;
 	}
 	
+	public void reset()
+	{
+		balance = 0;
+	}
+	
 	public void deposit(int winMoney){
 		balance += winMoney;
 	}
